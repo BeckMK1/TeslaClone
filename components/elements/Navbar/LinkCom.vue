@@ -1,9 +1,10 @@
 <template>
 	<div>
-		<NuxtLink class="navLink" :to="link"><p class="linkCta" v-if="isIcon == false">{{ title }}</p> <font-awesome-icon class="linkCta icon" v-if="isIcon == true" :icon="icon" /></NuxtLink>
+		<NuxtLink v-on="{mouseOver: sendLink}" class="navLink" :to="link"><p class="linkCta" v-if="isIcon == false">{{ title }}</p> <font-awesome-icon class="linkCta icon" v-if="isIcon == true" :icon="icon" /></NuxtLink>
 	</div>
 </template>
 <script setup>
+	const emit = defineEmits(['sendData'])
 	const props = defineProps({
 		link:{
 			default:'',
@@ -22,6 +23,9 @@
 			type:String
 		}
 	}) 
+	function sendLink(){
+		emit('sendData', props.title)
+	}
 </script>
 <style lang="scss" scoped>
 .navLink{

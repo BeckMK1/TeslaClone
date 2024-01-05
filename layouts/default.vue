@@ -6,7 +6,7 @@
                 </div>
                 <div class="headerElement">
                     <div class="navBar">
-                    <ElementsNavbarLinkCom class="navLink" v-for="NavLink in NavLinks" :link="NavLink.link" :title="NavLink.title"></ElementsNavbarLinkCom>
+                    <ElementsNavbarLinkCom sendData="getLink" class="navLink" v-for="NavLink in NavLinks" :link="NavLink.link" :title="NavLink.title"></ElementsNavbarLinkCom>
                     </div>
                 </div>
                 <div class="headerElement">
@@ -17,7 +17,7 @@
                 <div class="navDropdown" v-if="currentNav != ''">
                 <div class="dropDownContainer">
                     <div class="imageLinks"  v-for="DropDownLink in DropDownLinks" v-show="currentNav == DropDownLink.type">
-                        <ElementsNavbarDropdownCom :imageLinks="DropDownLink.imageLinks" :textLinks="DropDownLink.textLinks"></ElementsNavbarDropdownCom>
+                        <ElementsNavbarDropdownCom :imageLinks="DropDownLink.imageLinks"></ElementsNavbarDropdownCom>
                     </div>
                     <div class="devider"></div>
                     <div class="textLinks" v-for="DropDownLink in DropDownLinks" v-show="currentNav == DropDownLink.type">
@@ -128,6 +128,7 @@
             ]
         }
     ])
+    
 </script>
 <style lang="scss" scoped>
 @import"@/assets/scss/colors";

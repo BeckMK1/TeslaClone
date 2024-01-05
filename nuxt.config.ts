@@ -4,11 +4,10 @@ export default defineNuxtConfig({
     css: [
       '@fortawesome/fontawesome-svg-core/styles.css'
     ],
+    plugins: [
+      '~/plugins/fontawesome.js',
+    ],
     build: {
-      transpile: [
-        '@fortawesome/fontawesome-svg-core',
-        '@fortawesome/free-solid-svg',
-        '@fortawesome/free-brands-svg-icons'
-      ]
-    }
+      transpile: ['@fortawesome/vue-fontawesome']
+    },
 })
