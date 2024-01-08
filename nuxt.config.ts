@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     plugins: [
       '~/plugins/fontawesome.js',
     ],
+    modules:[
+      '@pinia/nuxt',
+    ],
     build: {
       transpile: ['@fortawesome/vue-fontawesome']
     },

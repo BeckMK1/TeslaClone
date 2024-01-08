@@ -13,6 +13,11 @@
 </script>
 <style lang="scss" scoped>
 	.imagelinkContainer{
-		padding: 0 24px;
+		max-width: 100%;
+	}
+	@media(min-width:450px){
+		.imagelinkContainer{
+			padding: 0 24px;
+		}
 	}
 </style>
