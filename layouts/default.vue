@@ -1,17 +1,23 @@
 <template>
     <main>
-        <header>
+        <header v-if="isNav == true">
+            <div class="currentNav">
+                <div v-if="currentNav != ''" @click="closeDropDown"><font-awesome-icon  icon="fa-solid fa-chevron-left" /></div>
+                <div v-if="currentNav != ''">{{ currentNav }}</div>
+                <div @click="isNav = false" :class="currentNav == '' ? 'closeRight': ''"><font-awesome-icon icon="fa-solid fa-x" /></div>
+            </div>
             <div :class=" currentNav == '' ? 'navShow' : 'navHide'" class="mainNav">
                 <div class="headerElement">
                     <div><NuxtLink class="logo" to="#">Car</NuxtLink></div>
                 </div>
                 <div class="headerElement">
                     <div class="navBar">
-                    <ElementsNavbarLinkCom :isMain="true" class="navLink" v-for="NavLink in NavLinks" :link="NavLink.link" :title="NavLink.title"></ElementsNavbarLinkCom>
+                    <ElementsNavbarLinkCom :isMain="true" class="navLink" v-for="NavLink in NavLinks" :hasMobileSub="NavLink.hasMobileSub" :link="NavLink.link" :title="NavLink.title"></ElementsNavbarLinkCom>
                     </div>
                 </div>
                 <div class="headerElement">
                     <div class="icons">
+                        <ElementsNavbarLinkCom class="iconLink" v-show="NavIcon.title != null" v-for="NavIcon in NavIcons" :link="NavIcon.link" :isIcon="false" :title="NavIcon.title"></ElementsNavbarLinkCom>
                         <ElementsNavbarLinkCom class="iconLink" v-for="NavIcon in NavIcons" :link="NavIcon.link" :isIcon="true" :icon="NavIcon.icon"></ElementsNavbarLinkCom>
                     </div>
                 </div>
@@ -32,6 +38,7 @@
             </div>
         </header>
         <div>
+            <div v-if="isNav == false" class="showNavBtn" @click="isNav = true">Menu</div>
             <slot></slot>
         </div>
     </main>
@@ -40,32 +47,39 @@
 	import { useStore } from '~/store/glStore'
     const currentNav = computed(()=> store.isnavDrop) 
     const currentProductCount = ref(0)
+    const isNav = ref(true)
     const store = useStore() 
     const NavLinks = ref([
         {
             link:'#',
-            title:'Biler'
+            title:'Biler',
+            hasMobileSub:true
         },
         {
             link:'#',
-            title:'Energi'
+            title:'Energi',
+            hasMobileSub:true
         },
         {
             link:'#',
-            title:'Opladning'
+            title:'Opladning',
+            hasMobileSub:true
         },
         {
             link:'#',
-            title:'Opdag'
+            title:'Opdag',
+            hasMobileSub:false
         },
         {
             link:'#',
-            title:'Webshop'
+            title:'Webshop',
+            hasMobileSub:false
         },
     ])
     const NavIcons = ref([
         {
             link:'#',
+            title:'support',
             icon:"fa-solid fa-question"
         },
         {
@@ -331,6 +345,22 @@
            }
         }
     }
+    function closeDropDown(){
+        store.flipNavDrop("")
+    }
+    function checkNavMobile(){
+        const mobile = window.matchMedia("(min-width:900px)")
+        window.addEventListener('resize',()=>{
+            if(mobile.matches){
+                isNav.value = true
+            }else {
+                isNav.value = false
+            }
+        })
+    }
+    onMounted(()=>{
+        checkNavMobile()
+    })
 watch(currentNav, async(newValue, oldValue)=>{
     if(newValue != oldValue){
         setProductCount()
@@ -352,8 +382,10 @@ watch(currentNav, async(newValue, oldValue)=>{
         min-width: 0;
         position: fixed;
         width: 100vw;
+        left: 0;
         .navShow{
             display: flex;
+            flex-direction: column;
         }
         .navHide{
             display: none;
@@ -361,17 +393,17 @@ watch(currentNav, async(newValue, oldValue)=>{
         .headerElement{
             max-width: 100%;
             display: flex;
-            &:nth-child(2){
-                justify-content: center;
+            flex-direction: column;
+            &:nth-child(1){
+                display: none;
             }
-            &:nth-child(3){
-                justify-content: flex-end;
+            .navBar{
+                flex-direction: column;
             }
         }
     }
     .navBar{
         display: flex;
-        width: 460px;
         .navLink{
             padding: 8px;
 
@@ -379,7 +411,11 @@ watch(currentNav, async(newValue, oldValue)=>{
     }
     .icons{
         display: flex;
+        flex-direction: column;
         gap: 1rem;
+    }
+    .iconLink{
+        padding: 8px;
     }
     .navDropdown{
         grid-column: span 1;
@@ -420,6 +456,15 @@ watch(currentNav, async(newValue, oldValue)=>{
             }
         }
     }
+    .currentNav{
+        display: flex;
+        justify-content: space-between;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        .closeRight{
+            float: right;
+        }
+    }
     @media (min-width:450px){
         header{
         }
@@ -448,6 +493,31 @@ watch(currentNav, async(newValue, oldValue)=>{
     }
     @media (min-width:900px){
         header{
+            .navShow{
+            display: flex;
+            flex-direction: row;
+            }
+            .headerElement{
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            &:nth-child(1){
+                display: block;
+            }
+            .navBar{
+                flex-direction: row;
+            }
+        }
+        }
+        .mainNav{
+            display: flex;
+            justify-content: space-between;
+            max-width: 100%;
+            align-items: baseline;
+            padding:0 3rem;
+            .headerElement{
+                max-width: fit-content;
+            }
         }
         .navDropdown{
             grid-column: span 4;
@@ -458,8 +528,21 @@ watch(currentNav, async(newValue, oldValue)=>{
                 }
             }
         }
+        .currentNav{
+            display: none;
+        }
     }
     @media (min-width:1200px){
+        .mainNav{
+            display: flex;
+            justify-content: space-between;
+            max-width: 100%;
+            align-items: baseline;
+            padding:0 3rem;
+            .headerElement{
+                max-width: fit-content;
+            }
+        }
         .navDropdown{
             .imageLinks{
                 grid-template-columns:repeat(3, 12fr);
