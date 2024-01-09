@@ -1,9 +1,9 @@
 <template>
     <main>
-        <header v-if="isNav == true">
+        <header v-if="isNav == true" :class="currentNav != '' ? 'linkeNavHover': ''">
             <div class="currentNav">
                 <div v-if="currentNav != ''" @click="closeDropDown"><font-awesome-icon  icon="fa-solid fa-chevron-left" /></div>
-                <div v-if="currentNav != ''">{{ currentNav }}</div>
+                <div v-if="currentNav != ''"><p>{{ currentNav }}</p></div>
                 <div @click="isNav = false" :class="currentNav == '' ? 'closeRight': ''"><font-awesome-icon icon="fa-solid fa-x" /></div>
             </div>
             <div :class=" currentNav == '' ? 'navShow' : 'navHide'" class="mainNav">
@@ -17,8 +17,8 @@
                 </div>
                 <div class="headerElement">
                     <div class="icons">
-                        <ElementsNavbarLinkCom class="iconLink" v-show="NavIcon.title != null" v-for="NavIcon in NavIcons" :link="NavIcon.link" :isIcon="false" :title="NavIcon.title"></ElementsNavbarLinkCom>
-                        <ElementsNavbarLinkCom class="iconLink" v-for="NavIcon in NavIcons" :link="NavIcon.link" :isIcon="true" :icon="NavIcon.icon"></ElementsNavbarLinkCom>
+                        <ElementsNavbarLinkCom class="iconLink iconTextLink" v-show="NavIcon.title != null" v-for="NavIcon in NavIcons" :isMain="true" :link="NavIcon.link" :isIcon="false" :title="NavIcon.title"></ElementsNavbarLinkCom>
+                        <ElementsNavbarLinkCom class="iconLink" :class="NavIcon.title == 'support' ? 'iconNoText' : ''"  v-for="NavIcon in NavIcons" :isMain="true" :link="NavIcon.link" :isIcon="true" :icon="NavIcon.icon"></ElementsNavbarLinkCom>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             </div>
         </header>
         <div>
-            <div v-if="isNav == false" class="showNavBtn" @click="isNav = true">Menu</div>
+            <div v-if="isNav == false" class="showNavBtn mobileNavBtn" @click="isNav = true, store.flipNavDrop('') ">Menu</div>
             <slot></slot>
         </div>
     </main>
@@ -349,7 +349,7 @@
         store.flipNavDrop("")
     }
     function checkNavMobile(){
-        const mobile = window.matchMedia("(min-width:900px)")
+        const mobile = window.matchMedia("(min-width:1200px)")
         window.addEventListener('resize',()=>{
             if(mobile.matches){
                 isNav.value = true
@@ -369,23 +369,28 @@ watch(currentNav, async(newValue, oldValue)=>{
 </script>
 <style lang="scss" scoped>
 @import"@/assets/scss/colors";
+@import"@/assets/scss/btns";
     header{
         display: grid;
         grid-template-columns:minmax(0, 1fr);
-        grid-template-rows:100%;
+        grid-template-rows:56px 100%;
         align-items: center;
         min-height:56px;
         height: fit-content;
         width:100%;
         max-width: 100%;
-        background-color: transparent;
+        background-color: white;
         min-width: 0;
         position: fixed;
         width: 100vw;
+        height: 100vh;
         left: 0;
+        top: 0;
+        z-index: 99;
         .navShow{
             display: flex;
             flex-direction: column;
+            align-self: start;
         }
         .navHide{
             display: none;
@@ -402,10 +407,15 @@ watch(currentNav, async(newValue, oldValue)=>{
             }
         }
     }
+    .showNavBtn{
+        position: fixed;
+        z-index: 2;
+        cursor: pointer;
+    }
     .navBar{
         display: flex;
         .navLink{
-            padding: 8px;
+            margin: 8px;
 
         }
     }
@@ -414,13 +424,17 @@ watch(currentNav, async(newValue, oldValue)=>{
         flex-direction: column;
         gap: 1rem;
     }
+    .iconNoText{
+        display: none;
+    }
     .iconLink{
-        padding: 8px;
+        margin: 8px;
     }
     .navDropdown{
         grid-column: span 1;
         max-width: 100%;
         padding-top: 3rem;
+        align-self: start;
         .dropDownContainer{
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -461,8 +475,12 @@ watch(currentNav, async(newValue, oldValue)=>{
         justify-content: space-between;
         padding-left: 1rem;
         padding-right: 1rem;
+        align-items: center;
+        p{
+            font-weight: bold;
+        }
         .closeRight{
-            float: right;
+            margin-left: auto;
         }
     }
     @media (min-width:450px){
@@ -495,29 +513,18 @@ watch(currentNav, async(newValue, oldValue)=>{
         header{
             .navShow{
             display: flex;
-            flex-direction: row;
             }
-            .headerElement{
+        .headerElement{
             max-width: 100%;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             &:nth-child(1){
-                display: block;
+                display: none;
             }
             .navBar{
-                flex-direction: row;
+                flex-direction: column;
             }
         }
-        }
-        .mainNav{
-            display: flex;
-            justify-content: space-between;
-            max-width: 100%;
-            align-items: baseline;
-            padding:0 3rem;
-            .headerElement{
-                max-width: fit-content;
-            }
         }
         .navDropdown{
             grid-column: span 4;
@@ -528,11 +535,54 @@ watch(currentNav, async(newValue, oldValue)=>{
                 }
             }
         }
-        .currentNav{
-            display: none;
-        }
+
     }
     @media (min-width:1200px){
+        header{
+            background-color: transparent;
+            height: fit-content;
+            min-height: 300px;
+            .headerElement{
+                &:nth-child(1){
+                    display: block;
+                }
+            }
+            .mainNav{
+                flex-direction: row;
+                align-self: unset;
+            }
+            .navHide{
+                display: flex;
+            }
+            .icons{
+                flex-direction: row;
+            }
+        }
+        .mainNav{
+            max-width: 100%;
+            .headerElement{
+                max-width: 100%;
+            }
+
+        }
+        header::before{
+                content: '';
+                display: block;
+                background-color: white;
+                height: 90%;
+                width: 100%;
+                opacity: 0;
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                transition:1s;
+            }
+            header.linkeNavHover::before{
+                transition: 1s;
+                height: 110%;
+                opacity: 100%;
+            }
         .mainNav{
             display: flex;
             justify-content: space-between;
@@ -541,12 +591,35 @@ watch(currentNav, async(newValue, oldValue)=>{
             padding:0 3rem;
             .headerElement{
                 max-width: fit-content;
+                flex-direction: row;
+                min-width:calc(33% - 6rem);
+                &:nth-child(1){
+                    justify-content: flex-start;
+                }
+                &:nth-child(2){
+                    justify-content: center;
+                }
+                &:nth-child(3){
+                    justify-content: flex-end;
+                }
+                .navBar{
+                    flex-direction: row;
+                }
             }
         }
         .navDropdown{
             .imageLinks{
                 grid-template-columns:repeat(3, 12fr);
             }
+        }
+        .currentNav{
+            display: none;
+        }
+        .iconTextLink{
+            display: none;
+        }
+        .iconNoText{
+            display: block;
         }
     }
 
@@ -566,9 +639,6 @@ watch(currentNav, async(newValue, oldValue)=>{
             max-width: 100%;
             align-items: baseline;
             padding:0 3rem;
-            .headerElement{
-                max-width: fit-content;
-            }
         }
         .navDropdown{
             grid-column: span 4;
@@ -659,6 +729,7 @@ watch(currentNav, async(newValue, oldValue)=>{
             overflow: hidden;
             animation: dropDownOpen 1s ease forwards;
         }
+        
         @keyframes dropDownOpen {
             from{
                 opacity: 0;
