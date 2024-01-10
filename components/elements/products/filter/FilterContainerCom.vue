@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div class="filterContainer">
+		
 	</div>
 </template>
 <script setup></script>

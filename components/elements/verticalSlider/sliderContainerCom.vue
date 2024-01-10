@@ -1,12 +1,12 @@
 <template>
 	<div>
-        <div class="slide" v-for="slide in Slides">
-            <ElementsVerticalSliderImageCom :image="slide.image"></ElementsVerticalSliderImageCom>
-            <ElementsVerticalSliderVideoCom :video="slide.video"></ElementsVerticalSliderVideoCom>
-            <div class="sliderContent">
-                <h2>{{ slide.title }}</h2>
+        <div class="slide" :id="'slide-' + index" v-for="(slide, index) in Slides">
+            <ElementsVerticalSliderImageCom  v-if="slide.image != ''" :image="slide.image"></ElementsVerticalSliderImageCom>
+            <ElementsVerticalSliderVideoCom v-if="slide.video != ''" :video="slide.video" :active="slide.active"></ElementsVerticalSliderVideoCom>
+            <div class="sliderContent" v-show="slide.active == true">
+                <h2 :class="slide.colors">{{ slide.title }}</h2>
                 <div class="btnContainer">
-                    <NuxtLink class="btn" to="#">{{slide.btn1}}</NuxtLink>
+                    <NuxtLink class="btn" :to="slide.btn1Link">{{slide.btn1}}</NuxtLink>
                     <NuxtLink class="btn" to="#">{{slide.btn2}}</NuxtLink>
                 </div>
             </div>
@@ -14,41 +14,96 @@
 	</div>
 </template>
 <script setup>
+import { useStore } from '~/store/glStore'
+const store = useStore()
 const Slides = ref([
     {
         title:'Car Y',
         image:'',
         video:'/images/slider/video/carVideo.mp4',
-        btn1:'se produkter',
-        btn2:'design din egen'
+        btn1:'Se produkter',
+        btn2:'design din egen',
+        btn1Link:'/products/product',
+        btn2Link:'',
+        colors:'WhiteText',
+        active:true
     },
     {
-        title:'',
+        title:'Car X',
         image:'/images/slider/images/sliderCar2.jpg',
         video:'',
-        btn1:'se produkter',
-        btn2:'design din egen'
+        btn1:'Se produkter',
+        btn2:'design din egen',
+        btn1Link:'',
+        btn2Link:'',
+        colors:'',
+        active:false
     },
     {
-        title:'',
+        title:'Car 2',
         image:'/images/slider/images/sliderCarCharger.jpg',
         video:'',
-        btn1:'se produkter',
-        btn2:'design din egen'
+        btn1:'Se produkter',
+        btn2:'design din egen',
+        btn1Link:'',
+        btn2Link:'',
+        colors:'WhiteText',
+        active:false
     },
     {
-        title:'',
+        title:'Car 3',
         image:'/images/slider/images/sliderSolar.jpg',
         video:'',
-        btn1:'se produkter',
-        btn2:'design din egen'
+        btn1:'Se produkter',
+        btn2:'design din egen',
+        btn1Link:'',
+        btn2Link:'',
+        colors:'',
+        active:false
     },
 ])
+function setColor(){
+    for(let slide of Slides.value){
+        if(slide.active == true){
+            store.setMenuColor(slide.colors)
+        }else{
+        }
+    }
+}
+function setSlideObserver(){
+	const slidesContent = document.querySelectorAll( ".slide");
+	let options = {
+    threshold: 0.1
+  };
+let callback = (entries, observer) => {
+  entries.forEach((entry) =>{
+	if(entry.isIntersecting == true){
+       for(let [index, slide] of Slides.value.entries()){
+            if(entry.target.id == 'slide-' + index ){
+                slide.active = true
+                setColor()
+            }else{
+                slide.active = false
+                setColor()
+            }
+        }
+	}
+ })
+}
+let observer =  new IntersectionObserver(callback, options);
+for (let slide of slidesContent) {
+    observer.observe(slide);
+}
+}
+onMounted(()=>{
+    setSlideObserver()
+})
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/colors";
 .sliderContent{
-    position: relative;
-    z-index: 2;
+    position: fixed;
+    z-index: 10;
     height: 90%;
     margin-top: auto;
     width: 100vw;
@@ -58,6 +113,7 @@ const Slides = ref([
     justify-content: space-between;
     margin-left: 1rem;
     margin-right: 1rem;
+    top: 10%;
     h2{
         font-size: 2.5rem;
     }

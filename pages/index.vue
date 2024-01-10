@@ -1,17 +1,9 @@
 <template>
-    <div @mouseenter="resetCurrent" class="mainContent">
+    <div class="mainContent">
         <ElementsVerticalSliderContainerCom></ElementsVerticalSliderContainerCom>
     </div>
 </template>
 <script setup>
-	import { useStore } from '~/store/glStore'
-    const store = useStore()
-    function resetCurrent(){
-	const mobile = window.matchMedia("(min-width:1200px)")
-		if(mobile.matches){
-            store.flipNavDrop('')
-	}
-	}  
 </script>
 <style lang="scss">
 @import "@/assets/scss/fonts";
@@ -24,6 +16,5 @@ body{
 }
 .mainContent{
     min-height: 100vh;
-    background-color: red;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <main>
-        <header v-if="isNav == true" :class="currentNav != '' ? 'linkeNavHover': ''">
+        <header v-if="isNav == true" :class="[currentNav != '' ? 'linkeNavHover': ''] + [$route.path == '/' ? ' navFixed' : '']">
             <div class="currentNav">
                 <div v-if="currentNav != ''" @click="closeDropDown"><font-awesome-icon  icon="fa-solid fa-chevron-left" /></div>
                 <div v-if="currentNav != ''"><p>{{ currentNav }}</p></div>
@@ -8,7 +8,7 @@
             </div>
             <div :class=" currentNav == '' ? 'navShow' : 'navHide'" class="mainNav">
                 <div class="headerElement">
-                    <div><NuxtLink class="logo" to="#">Car</NuxtLink></div>
+                    <div><NuxtLink class="logo" :class="currentNav == '' ? store.menuColor : ''" to="/">Car</NuxtLink></div>
                 </div>
                 <div class="headerElement">
                     <div class="navBar">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </header>
-        <div>
+        <div  @mouseenter="resetCurrent">
             <div v-if="isNav == false" class="showNavBtn mobileNavBtn" @click="isNav = true, store.flipNavDrop('') ">Menu</div>
             <slot></slot>
         </div>
@@ -45,7 +45,7 @@
 </template>
 <script setup>
 	import { useStore } from '~/store/glStore'
-    const currentNav = computed(()=> store.isnavDrop) 
+    const currentNav = computed(()=> store.isnavDrop)
     const currentProductCount = ref(0)
     const isNav = ref(true)
     const store = useStore() 
@@ -358,6 +358,12 @@
             }
         })
     }
+        function resetCurrent(){
+	const mobile = window.matchMedia("(min-width:1200px)")
+		if(mobile.matches){
+            store.flipNavDrop('')
+	}
+	}       
     onMounted(()=>{
         checkNavMobile()
     })
@@ -381,12 +387,15 @@ watch(currentNav, async(newValue, oldValue)=>{
         max-width: 100%;
         background-color: white;
         min-width: 0;
-        position: fixed;
+        position: absolute;
         width: 100vw;
         height: 100vh;
         left: 0;
         top: 0;
         z-index: 99;
+        &.navFixed{
+            position: fixed;
+        }
         .navShow{
             display: flex;
             flex-direction: column;

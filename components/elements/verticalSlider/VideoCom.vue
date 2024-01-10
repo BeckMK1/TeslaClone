@@ -1,6 +1,6 @@
 <template>
 	<div class="videoContainer">
-		<video v-if="video != ''" autoplay loop >
+		<video	class="slideVideo" autoplay muted loop>
 			<source :src="video" type="video/mp4">
 		</video>
 	</div>
@@ -10,8 +10,26 @@ const props = defineProps({
 	video:{
 		default:'',
 		type:String
+	},
+	active:{
+		default:false,
+		type:Boolean
 	}
 })
+const videoActive = computed(()=> props.active)
+watch(videoActive, async(newValue)=>{
+	if(newValue == true){
+		document.querySelector(".slideVideo").muted = true;
+		document.querySelector(".slideVideo").autoplay = true;
+		document.querySelector(".slideVideo").loop = true;
+		document.querySelector(".slideVideo").play()
+		console.log(document.querySelector(".slideVideo"))
+	}else {
+		document.querySelector(".slideVideo").pause();
+		document.querySelector(".slideVideo").currentTime = 0;
+	}
+})
+
 </script>
 <style lang="scss" scoped>
 .videoContainer{

@@ -1,6 +1,6 @@
 <template>
 	<div @click="setCurrentMobile" class="textLinkContainer" :class="isMain == true ? 'mainTextLinkContainer': ''">
-		<NuxtLink @mouseenter="setCurrent" class="navLink" :to="link"><p class="linkCta" v-if="isIcon == false">{{ title }}</p> <font-awesome-icon class="linkCta icon" v-if="isIcon == true" :icon="icon" /></NuxtLink>
+		<NuxtLink @mouseenter="setCurrent" class="navLink" :to="link"><p class="linkCta" :class="isMain == true && store.isnavDrop == false ? store.menuColor : ''" v-if="isIcon == false">{{ title }}</p> <font-awesome-icon class="linkCta icon" :class="isMain == true && store.isnavDrop == false ? store.menuColor : ''"  v-if="isIcon == true" :icon="icon" /></NuxtLink>
 		<font-awesome-icon class="mobileArrow" v-if="hasMobileSub == true" icon="fa-solid fa-chevron-right" />
 	</div>
 </template>
