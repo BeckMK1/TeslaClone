@@ -4,7 +4,8 @@ export const useStore = defineStore('glStore', {
   // arrow function recommended for full type inference
   state: () => ({
     isnavDrop: "",
-    menuColor:""
+    menuColor:"",
+    productFilter:[]
   }),
   actions:{
     flipNavDrop(data) {
@@ -13,5 +14,8 @@ export const useStore = defineStore('glStore', {
       setMenuColor(data) {
         this.menuColor = data
       },
+      setFilter(data){
+        this.productFilter = data
+      }
   }
 })

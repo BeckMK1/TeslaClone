@@ -35,13 +35,13 @@ menuColor()
         padding-top: 100px;
         padding-bottom: 1.5rem;
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(24, 1fr);
         margin-top: 3rem;
     }
     .filterContainer{
-        grid-column: 1/3;
+        grid-column: 1/6;
     }
     .productContainer{
-        grid-column: 3/12;
+        grid-column: 6/24;
     }
 </style>

@@ -6,6 +6,9 @@
 	</div>
 </template>
 <script setup>
+import { useStore } from '~/store/glStore'
+const store = useStore()
+const checkFilter = computed(()=>store.productFilter)
 const products = ref([
 	{
 		title:'Product 1',
@@ -14,6 +17,8 @@ const products = ref([
 		mainPrice:'324.325 kr',
 		subPrice:'434.522 kr',
 		priceInfo:'demobil',
+		model:"Model S",
+		udstyr:'Performance firehjulstræk',
 		images:[
 			"/images/nav/cars/carBlack.png",
 		],
@@ -43,6 +48,8 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
+		model:"Model S",
+		udstyr:'Long Range firehjulstræk',
 		images:[
 			"/images/nav/cars/carBlue.png",
 		],
@@ -72,6 +79,8 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
+		model:"Model Y",
+		udstyr:'Long Range firehjulstræk',
 		images:[
 			"/images/nav/cars/carSilver.png",
 		],
@@ -101,6 +110,8 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
+		model:"Model Y",
+		udstyr:'Long Range firehjulstræk',
 		images:[
 			"/images/nav/cars/carRed.png",
 		],
@@ -125,11 +136,16 @@ const products = ref([
 	}
 ])
 const filtedProducts = ref([])
-const productName = ref('Product 1')
 function filterProducts(){
-	filtedProducts.value = products.value.filter((product) => product.title == productName.value)
+	filtedProducts.value = products.value.filter(((product) => ( store.productFilter.includes(product.model)  
+	&& !store.productFilter.includes(product.udstyr) ) || ( !store.productFilter.includes(product.model) && store.productFilter.includes(product.udstyr))))
 }
-filterProducts()
+watch(checkFilter, async(newValue, oldValue)=>{
+	if(newValue != oldValue){
+		filterProducts()
+	}
+})
+
 </script>
 <style lang="scss" scoped>
 .productContainer{
