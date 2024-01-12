@@ -27,6 +27,7 @@
 				</div>
 				<p class="specsInfo">{{mainSpec.text}}</p>
 			</div>
+			<button class="detailsBtn"><p>Se details</p></button>
 		</div>
 		<div class="subSpecs">
 			<p v-for="subspec in subSpecs" class="spec">{{ subspec }}</p>
@@ -136,7 +137,7 @@ const props = defineProps({
 .mainSpecs{
 	display: flex;
 	justify-content: space-between;
-
+	position: relative;
 	.specsContainer{
 	width: 33%;
 	display: flex;
@@ -148,7 +149,7 @@ const props = defineProps({
 		&:nth-child(2){
 			align-items: center;
 		}
-		&:last-child{
+		&:nth-child(3){
 			border-left: 1px solid gray;
 			align-items: center;
 		}
@@ -161,6 +162,29 @@ const props = defineProps({
 			font-size: 1.5rem;
 		font-weight: bold;
 
+		}
+	}
+	.detailsBtn{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: white;
+		border: 2px solid black;
+		border-radius: 0.5rem;
+		opacity:0%;
+		pointer-events: none;
+		cursor: pointer;
+		transition: opacity 250ms;
+		p{
+			font-size: 1.10rem;
+			font-weight: 600;
+		}
+	}
+	&:hover{
+		.detailsBtn{
+			opacity: 100%;
+			pointer-events: auto;
+			transition: opacity 250ms;
 		}
 	}
 }
