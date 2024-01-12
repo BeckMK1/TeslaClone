@@ -76,6 +76,7 @@
 		.navLink{
 			p{
 				font-weight: 400;
+				transition: 250ms;
 			}
 		}
 }

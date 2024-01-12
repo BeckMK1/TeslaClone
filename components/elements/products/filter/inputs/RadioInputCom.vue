@@ -1,5 +1,5 @@
 <template>
-	<div class="radio">
+	<div class="radio" v-for="label in labels">
 		<input type="radio" :name="radioType" :value="label" v-model="inputValue">
 		<label :for="radioType">{{label}}</label>
 	</div>
@@ -10,17 +10,17 @@ const props = defineProps({
 		default:'',
 		type:String
 	},
-	label:{
-		default:'',
-		type:String
-	}
+	labels:{
+		default:[],
+		type:Array
+	},
 })
 const emits = defineEmits(['sendInput'])
-const inputValue = ref("")
-watch(inputValue, async(newValue, oldValue)=>{
-    if(newValue != oldValue && inputValue.value != ""){
+const inputValue = ref("Model S")
+emits("sendInput", inputValue.value)
+watch( inputValue, async(newValue, oldValue)=>{
+    if(oldValue != newValue){
         emits("sendInput", inputValue.value)
-        inputValue.value = ""
     }
 })
 </script>

@@ -15,7 +15,14 @@ const props = defineProps({
         type:Array
     }
 })
+const emits = defineEmits(["sendData"])
 const selectValue = ref("50 KM")
+emits("sendData", selectValue.value)
+watch(selectValue, async(newData, oldData)=>{
+	if(newData != oldData){
+		emits("sendData", selectValue.value)
+	}
+})
 </script>
 <style lang="scss" scoped>
 		select{

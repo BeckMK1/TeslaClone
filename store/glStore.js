@@ -5,6 +5,8 @@ export const useStore = defineStore('glStore', {
   state: () => ({
     isnavDrop: "",
     menuColor:"",
+    model:"",
+    indenFor:"",
     productFilter:[]
   }),
   actions:{
@@ -16,6 +18,12 @@ export const useStore = defineStore('glStore', {
       },
       setFilter(data){
         this.productFilter = data
+      },
+      setModel(data){
+        this.model = data
+      },
+      setindenFor(data){
+        this.indenFor = data
       }
   }
 })

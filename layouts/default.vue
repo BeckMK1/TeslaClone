@@ -39,7 +39,7 @@
         </header>
         <div  @mouseenter="resetCurrent">
             <div v-if="isNav == false" class="showNavBtn mobileNavBtn" @click="isNav = true, store.flipNavDrop('') ">Menu</div>
-            <slot></slot>
+                <slot></slot>
         </div>
     </main>
 </template>
@@ -393,6 +393,9 @@ watch(currentNav, async(newValue, oldValue)=>{
         left: 0;
         top: 0;
         z-index: 99;
+        .logo{
+            transition: 250ms;
+        }
         &.navFixed{
             position: fixed;
         }

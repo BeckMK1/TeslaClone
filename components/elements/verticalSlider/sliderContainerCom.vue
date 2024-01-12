@@ -4,7 +4,7 @@
             <ElementsVerticalSliderImageCom  v-if="slide.image != ''" :image="slide.image"></ElementsVerticalSliderImageCom>
             <ElementsVerticalSliderVideoCom v-if="slide.video != ''" :video="slide.video" :active="slide.active"></ElementsVerticalSliderVideoCom>
             <div class="sliderContent" v-show="slide.active == true">
-                <h2 :class="slide.colors">{{ slide.title }}</h2>
+                <h2 class="title" :class="slide.colors">{{ slide.title }}</h2>
                 <div class="btnContainer">
                     <NuxtLink class="btn" :to="slide.btn1Link">{{slide.btn1}}</NuxtLink>
                     <NuxtLink class="btn" to="#">{{slide.btn2}}</NuxtLink>
@@ -116,6 +116,7 @@ onMounted(()=>{
     top: 10%;
     h2{
         font-size: 2.5rem;
+        transition: 250ms;
     }
 }
 .btnContainer{

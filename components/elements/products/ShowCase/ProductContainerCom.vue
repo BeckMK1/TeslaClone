@@ -8,7 +8,9 @@
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
-const checkFilter = computed(()=>store.productFilter)
+const checkModel = computed(()=>store.model)
+const checkIndenFor = computed(()=> store.indenFor)
+const checFilter = computed(()=> store.productFilter)
 const products = ref([
 	{
 		title:'Product 1',
@@ -19,6 +21,7 @@ const products = ref([
 		priceInfo:'demobil',
 		model:"Model S",
 		udstyr:'Performance firehjulstræk',
+		idenFor:'50 KM',
 		images:[
 			"/images/nav/cars/carBlack.png",
 		],
@@ -50,6 +53,7 @@ const products = ref([
 		priceInfo:'demobil',
 		model:"Model S",
 		udstyr:'Long Range firehjulstræk',
+		idenFor:'100 KM',
 		images:[
 			"/images/nav/cars/carBlue.png",
 		],
@@ -81,6 +85,7 @@ const products = ref([
 		priceInfo:'demobil',
 		model:"Model Y",
 		udstyr:'Long Range firehjulstræk',
+		idenFor:'50 KM',
 		images:[
 			"/images/nav/cars/carSilver.png",
 		],
@@ -112,6 +117,7 @@ const products = ref([
 		priceInfo:'demobil',
 		model:"Model Y",
 		udstyr:'Long Range firehjulstræk',
+		idenFor:'100 KM',
 		images:[
 			"/images/nav/cars/carRed.png",
 		],
@@ -135,14 +141,27 @@ const products = ref([
 		]
 	}
 ])
+const modeles = ref([])
 const filtedProducts = ref([])
-function filterProducts(){
-	filtedProducts.value = products.value.filter(((product) => ( store.productFilter.includes(product.model)  
-	&& !store.productFilter.includes(product.udstyr) ) || ( !store.productFilter.includes(product.model) && store.productFilter.includes(product.udstyr))))
+function filterModel(){
+	modeles.value = products.value.filter((product) => (store.model.includes(product.model) && store.indenFor.includes(product.idenFor)) 
+	|| (store.model.includes(product.model) && store.indenFor.includes("alle")) )
+	filtedProducts.value = modeles.value
 }
-watch(checkFilter, async(newValue, oldValue)=>{
-	if(newValue != oldValue){
+filterModel()
+function filterProducts(){
+		filtedProducts.value = modeles.value.filter((product) => store.productFilter.includes(product.udstyr))
+}
+watch([checkModel, checkIndenFor], async([newModel, newIndenFor],[oldModel, oldIndenFor])=>{
+	if(newModel != oldModel || newIndenFor != oldIndenFor){
+		filterModel()
+	}
+})
+watch(checFilter, async(newValue, oldValue)=>{
+	if(newValue != oldValue && newValue.length != 0){
 		filterProducts()
+	} else{
+		filterModel()
 	}
 })
 

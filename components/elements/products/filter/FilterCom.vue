@@ -1,11 +1,10 @@
 <template>
 	<div class="filter">
 		<ElementsProductsFilterInputsTextInputCom label="Postnummer" subLabel="Hvor"></ElementsProductsFilterInputsTextInputCom>
-		<ElementsProductsFilterInputsSelectCom :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom>
+		<ElementsProductsFilterInputsSelectCom @sendData="getSelect" :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom>
 		<div class="filterTitle">
 			<p>Modeller</p>
-			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" label="Model S" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
-			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" label="Model Y" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
+			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" :labels="['Model S', 'Model Y']" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
 		</div>
 		<div class="filterTitle">
 			<p>Udstyr</p>
@@ -25,8 +24,10 @@
 		"alle"
 	])
 	const store = useStore()
+	const selectData = ref("")
 	const radioData = ref("")
 	const checkBoxData = ref([])
+	
 	function makeFilter(){
 		let tempArray = []
 		if(checkBoxData.value != []){
@@ -34,11 +35,7 @@
 			tempArray.push(checkBox.toString())
 		}
 		}
-		if(radioData.value != ""){
-		tempArray.push(radioData.value)
-		}
 		store.setFilter(tempArray)
-		console.log(tempArray) 
 	}
 	function getRadio(data){
 		radioData.value = data
@@ -46,9 +43,14 @@
 	function getCheckBox(data){
 		checkBoxData.value = data
 	}
-	watch([radioData, checkBoxData], ([newRadio, newCheckbox], [oldRadio, oldCheckbox])=>{
-		if(newRadio != oldRadio || newCheckbox != oldCheckbox){
+	function getSelect(data){
+		selectData.value = data
+	}
+	watch([radioData, checkBoxData, selectData ], ([newRadio, newCheckbox, newIndenFor], [oldRadio, oldCheckbox, oldIndenFor])=>{
+		if(newRadio != oldRadio || newCheckbox != oldCheckbox || newIndenFor != oldIndenFor){
 			makeFilter()
+			store.setModel(radioData.value)
+			store.setindenFor(selectData.value)
 		}
 	})
 </script>
