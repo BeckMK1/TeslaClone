@@ -8,8 +8,6 @@
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
-const checkModel = computed(()=>store.model)
-const checkIndenFor = computed(()=> store.indenFor)
 const checFilter = computed(()=> store.productFilter)
 const products = ref([
 	{
@@ -19,9 +17,11 @@ const products = ref([
 		mainPrice:'324.325 kr',
 		subPrice:'434.522 kr',
 		priceInfo:'demobil',
-		model:"Model S",
-		udstyr:'Performance firehjulstræk',
-		idenFor:'50 KM',
+		filterValues:[
+			"Model S",
+			"Performance firehjulstræk",
+			"50 KM"
+		],
 		images:[
 			"/images/nav/cars/carBlack.png",
 		],
@@ -51,9 +51,11 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
-		model:"Model S",
-		udstyr:'Long Range firehjulstræk',
-		idenFor:'100 KM',
+		filterValues:[
+			"Model Y",
+			"Long Range firehjulstræk",
+			"50 KM"
+		],
 		images:[
 			"/images/nav/cars/carBlue.png",
 		],
@@ -83,9 +85,11 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
-		model:"Model Y",
-		udstyr:'Long Range firehjulstræk',
-		idenFor:'50 KM',
+		filterValues:[
+			"Model S",
+			"Long Range firehjulstræk",
+			"100 KM"
+		],
 		images:[
 			"/images/nav/cars/carSilver.png",
 		],
@@ -115,9 +119,45 @@ const products = ref([
 		mainPrice:'224.325 kr',
 		subPrice:'334.522 kr',
 		priceInfo:'demobil',
-		model:"Model Y",
-		udstyr:'Long Range firehjulstræk',
-		idenFor:'100 KM',
+		filterValues:[
+			"Model Y",
+			"Performance firehjulstræk",
+			"200 KM"
+		],
+		images:[
+			"/images/nav/cars/carRed.png",
+		],
+		mainSpecs:[
+			{
+				number:"320",
+				text:"rækkevidde"
+			},
+			{
+				number:"250",
+				text:"TopHastighed"
+			},
+			{
+				number:"3,7",
+				text:"0-100 km/t"
+			},
+		],
+		subSpecs:[
+			'Deep Blue Metallic lak',
+			'20" Induction-fælge'
+		]
+	},
+	{
+		title:'Product 4',
+		subTitle:'Product 4 subtitle',
+		titleInfo:'Product 4 info',
+		mainPrice:'224.325 kr',
+		subPrice:'334.522 kr',
+		priceInfo:'demobil',
+		filterValues:[
+			"Model S",
+			"Long Range firehjulstræk",
+			"50 KM"
+		],
 		images:[
 			"/images/nav/cars/carRed.png",
 		],
@@ -144,23 +184,11 @@ const products = ref([
 const modeles = ref([])
 const filtedProducts = ref([])
 function filterModel(){
-	modeles.value = products.value.filter((product) => (store.model.includes(product.model) && store.indenFor.includes(product.idenFor)) 
-	|| (store.model.includes(product.model) && store.indenFor.includes("alle")) )
-	filtedProducts.value = modeles.value
+filtedProducts.value = products.value.filter((product) =>  store.productFilter.every(v => product.filterValues.includes(v)))
 }
 filterModel()
-function filterProducts(){
-		filtedProducts.value = modeles.value.filter((product) => store.productFilter.includes(product.udstyr))
-}
-watch([checkModel, checkIndenFor], async([newModel, newIndenFor],[oldModel, oldIndenFor])=>{
-	if(newModel != oldModel || newIndenFor != oldIndenFor){
-		filterModel()
-	}
-})
-watch(checFilter, async(newValue, oldValue)=>{
-	if(newValue != oldValue && newValue.length != 0){
-		filterProducts()
-	} else{
+watch(checFilter, async(newData, oldData)=>{
+	if(newData != oldData ){
 		filterModel()
 	}
 })

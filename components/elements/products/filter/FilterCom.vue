@@ -34,6 +34,8 @@
 		for(let checkBox of checkBoxData.value){
 			tempArray.push(checkBox.toString())
 		}
+		tempArray.push(radioData.value)
+		tempArray.push(selectData.value)
 		}
 		store.setFilter(tempArray)
 	}
@@ -49,8 +51,6 @@
 	watch([radioData, checkBoxData, selectData ], ([newRadio, newCheckbox, newIndenFor], [oldRadio, oldCheckbox, oldIndenFor])=>{
 		if(newRadio != oldRadio || newCheckbox != oldCheckbox || newIndenFor != oldIndenFor){
 			makeFilter()
-			store.setModel(radioData.value)
-			store.setindenFor(selectData.value)
 		}
 	})
 </script>
