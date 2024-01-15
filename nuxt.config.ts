@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     ],
     modules:[
       '@pinia/nuxt',
-      ['@nuxtjs/robots',{UserAgent: '*', Disallow: '/'}]
+      ['@nuxtjs/robots', { configPath: "~/config/robots.config" }],
     ],
     build: {
       transpile: ['@fortawesome/vue-fontawesome']
