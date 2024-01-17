@@ -9,7 +9,7 @@
 			<div class="price">
 				<p class="mainPrice">{{mainPrice}}</p>
 				<p class="subPrice">{{ subPrice }}</p>
-				<p class="priceInfo">{{priceInfo}}</p>
+				<p class="priceInfo" v-if="isDemo == true">demobil</p>
 			</div>
 		</div>
 		<div class="imageSliderContainer">
@@ -20,12 +20,23 @@
 			<font-awesome-icon class="sliderArrow" icon="fa-solid fa-arrow-right" />
 		</div>
 		<div class="mainSpecs">
-			<div v-for="mainSpec in mainSpecs" class="specsContainer">
+			<div class="specsContainer">
 				<div class="specs">
-					<p>{{ mainSpec.number }}</p>
-					<p>km</p>
+					<p>{{ mainSpecs1 }}</p>
 				</div>
-				<p class="specsInfo">{{mainSpec.text}}</p>
+				<p class="specsInfo"></p>
+			</div>
+			<div class="specsContainer">
+				<div class="specs">
+					<p>{{ mainSpecs2  }}</p>
+				</div>
+				<p class="specsInfo"></p>
+			</div>
+			<div class="specsContainer">
+				<div class="specs">
+					<p>{{ mainSpecs3  }}</p>
+				</div>
+				<p class="specsInfo"></p>
 			</div>
 			<button class="detailsBtn"><p>Se details</p></button>
 		</div>
@@ -56,17 +67,25 @@ const props = defineProps({
 		default:'',
 		type:String
 	},
-	priceInfo:{
-		default:'',
-		type:String
+	isDemo:{
+		default:false,
+		type:Boolean
 	},
 	images:{
 		default:[],
 		type:Array
 	},
-	mainSpecs:{
-		default:[],
-		type:Array
+	mainSpecs1:{
+		default:"",
+		type:String
+	},
+	mainSpecs2:{
+		default:"",
+		type:String
+	},
+	mainSpecs3:{
+		default:"",
+		type:String
 	},
 	subSpecs:{
 		default:[],

@@ -7,6 +7,7 @@ export const useStore = defineStore('glStore', {
     menuColor:"",
     model:"",
     indenFor:"",
+    allProduts:[],
     productFilter:[]
   }),
   actions:{
@@ -24,6 +25,9 @@ export const useStore = defineStore('glStore', {
       },
       setindenFor(data){
         this.indenFor = data
+      },
+      setProducts(data){
+        this.allProduts = data
       }
   }
 })

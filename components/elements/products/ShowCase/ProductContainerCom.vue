@@ -1,8 +1,9 @@
 <template>
 	<div class="productContainer">
 		<TransitionGroup name="list">
-			<ElementsProductsShowCaseProductCom v-for="product in filtedProducts" :key="product.title"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
-			:main-price="product.mainPrice" :sub-price="product.subPrice" :price-info="product.priceInfo" :images="product.images" :main-specs="product.mainSpecs" 
+			<ElementsProductsShowCaseProductCom v-for="product in products" :key="product"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
+			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
+			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
 			:sub-specs="product.subSpecs"></ElementsProductsShowCaseProductCom>
 		</TransitionGroup>
 	</div>
@@ -10,194 +11,24 @@
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
+const products = ref([])
 const checFilter = computed(()=> store.productFilter)
-const products = ref([
-	{
-		title:'Product 1',
-		subTitle:'product 1 subtitle',
-		titleInfo:'product 1 info',
-		mainPrice:'324.325 kr',
-		subPrice:'434.522 kr',
-		priceInfo:'demobil',
-		filterValues:[
-			"Model S",
-			"Performance firehjulstræk",
-			"50 KM",
-			"alle"
-		],
-		images:[
-			"/images/nav/cars/carBlack.png",
-		],
-		mainSpecs:[
-			{
-				number:"420",
-				text:"rækkevidde"
-			},
-			{
-				number:"217",
-				text:"TopHastighed"
-			},
-			{
-				number:"6,9",
-				text:"0-100 km/t"
-			},
-		],
-		subSpecs:[
-			'Deep Blue Metallic lak',
-			'20" Induction-fælge',
-		]
-	},
-	{
-		title:'Product 2',
-		subTitle:'Product 2 subtitle',
-		titleInfo:'Product 2 info',
-		mainPrice:'224.325 kr',
-		subPrice:'334.522 kr',
-		priceInfo:'demobil',
-		filterValues:[
-			"Model Y",
-			"Long Range firehjulstræk",
-			"50 KM",
-			"alle"
-		],
-		images:[
-			"/images/nav/cars/carBlue.png",
-		],
-		mainSpecs:[
-			{
-				number:"320",
-				text:"rækkevidde"
-			},
-			{
-				number:"250",
-				text:"TopHastighed"
-			},
-			{
-				number:"3,7",
-				text:"0-100 km/t"
-			},
-		],
-		subSpecs:[
-			'Deep Blue Metallic lak',
-			'20" Induction-fælge'
-		]
-	},
-	{
-		title:'Product 3',
-		subTitle:'Product 3 subtitle',
-		titleInfo:'Product 3 info',
-		mainPrice:'224.325 kr',
-		subPrice:'334.522 kr',
-		priceInfo:'demobil',
-		filterValues:[
-			"Model S",
-			"Long Range firehjulstræk",
-			"100 KM",
-			"alle"
-		],
-		images:[
-			"/images/nav/cars/carSilver.png",
-		],
-		mainSpecs:[
-			{
-				number:"320",
-				text:"rækkevidde"
-			},
-			{
-				number:"250",
-				text:"TopHastighed"
-			},
-			{
-				number:"3,7",
-				text:"0-100 km/t"
-			},
-		],
-		subSpecs:[
-			'Deep Blue Metallic lak',
-			'20" Induction-fælge'
-		]
-	},
-	{
-		title:'Product 4',
-		subTitle:'Product 4 subtitle',
-		titleInfo:'Product 4 info',
-		mainPrice:'224.325 kr',
-		subPrice:'334.522 kr',
-		priceInfo:'demobil',
-		filterValues:[
-			"Model Y",
-			"Performance firehjulstræk",
-			"200 KM",
-			"alle"
-		],
-		images:[
-			"/images/nav/cars/carRed.png",
-		],
-		mainSpecs:[
-			{
-				number:"320",
-				text:"rækkevidde"
-			},
-			{
-				number:"250",
-				text:"TopHastighed"
-			},
-			{
-				number:"3,7",
-				text:"0-100 km/t"
-			},
-		],
-		subSpecs:[
-			'Deep Blue Metallic lak',
-			'20" Induction-fælge'
-		]
-	},
-	{
-		title:'Product 5',
-		subTitle:'Product 5 subtitle',
-		titleInfo:'Product 5 info',
-		mainPrice:'224.325 kr',
-		subPrice:'334.522 kr',
-		priceInfo:'demobil',
-		filterValues:[
-			"Model S",
-			"Long Range firehjulstræk",
-			"50 KM",
-			"alle"
-		],
-		images:[
-			"/images/nav/cars/carWhite.png",
-		],
-		mainSpecs:[
-			{
-				number:"320",
-				text:"rækkevidde"
-			},
-			{
-				number:"250",
-				text:"TopHastighed"
-			},
-			{
-				number:"3,7",
-				text:"0-100 km/t"
-			},
-		],
-		subSpecs:[
-			'Deep Blue Metallic lak',
-			'20" Induction-fælge'
-		]
-	}
-])
 const filtedProducts = ref([])
-function filterModel(){
-filtedProducts.value = products.value.filter((product) =>  store.productFilter.every(v => product.filterValues.includes(v)))
-}
-filterModel()
-watch(checFilter, async(newData, oldData)=>{
-	if(newData != oldData ){
-		filterModel()
+function getProductData(){
+	for(let product of store.allProduts){
+		products.value.push(product.porduct)
 	}
-})
+}
+getProductData()
+// function filterModel(){
+// filtedProducts.value = products.value.filter((product) =>  store.productFilter.every(v => product.filterValues.includes(v)))
+// }
+// filterModel()
+// watch(checFilter, async(newData, oldData)=>{
+// 	if(newData != oldData ){
+// 		filterModel()
+// 	}
+// })
 
 </script>
 <style lang="scss" scoped>
