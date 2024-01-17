@@ -13,11 +13,13 @@
 			</div>
 		</div>
 		<div class="imageSliderContainer">
-			<font-awesome-icon class="sliderArrow" icon="fa-solid fa-arrow-left" />
-			<div v-for="image in images" class="imageSlider">
-				<img :src="image" alt="">
+			<font-awesome-icon @click="sliderLeft" class="sliderArrow" icon="fa-solid fa-arrow-left" />
+			<div class="sliderWrapper" :class="productId">
+				<div class="imageSlider">
+						<img v-for="image in images" :src="image" alt="">
+				</div>
 			</div>
-			<font-awesome-icon class="sliderArrow" icon="fa-solid fa-arrow-right" />
+			<font-awesome-icon @click="sliderRight" class="sliderArrow" icon="fa-solid fa-arrow-right" />
 		</div>
 		<div class="mainSpecs">
 			<div class="specsContainer">
@@ -91,7 +93,35 @@ const props = defineProps({
 		default:[],
 		type:Array
 	},
+	productId:{
+		default:"",
+		type:String
+	}
 })
+function sliderRight(){
+	const slider = document.querySelectorAll("." + props.productId);
+	const slideImage = document.querySelector(".imageSlider");
+	for(let slide of slider){
+		if(slide.classList.contains(props.productId)){
+			slide.scrollLeft += slideImage.scrollWidth
+			if((slide.scrollWidth / 2) == slide.scrollLeft){
+				slide.scrollLeft = 0
+			}
+		}
+	}
+
+}
+function sliderLeft(){
+	const slider = document.querySelectorAll("." + props.productId);
+	const slideImage = document.querySelector(".imageSlider");
+	for(let slide of slider){
+		if(slide.classList.contains(props.productId)){
+			slide.scrollLeft -= slideImage.scrollWidth
+			
+		}
+	}
+
+}
 </script>
 <style lang="scss" scoped>
 .product{
@@ -134,10 +164,16 @@ const props = defineProps({
 .imageSliderContainer{
 	display: flex;
 	align-items: center;
-	padding: 1rem;
+	padding: 1rem 0;
+	width: 300px;
 	.sliderArrow{
 		transition: 250ms;
 			opacity: 0%;
+			position: relative;
+			z-index: 10;
+			margin-left: 1rem;
+			margin-right: 1rem;
+			cursor: pointer;
 	}
 	&:hover{
 		.sliderArrow{
@@ -145,12 +181,25 @@ const props = defineProps({
 			opacity: 100%;
 	}
 	}
-	.imageSlider{
-		padding: 1rem;
-		img{
-			width: 100%;
-			height:auto;
+	.sliderWrapper{
+		overflow-x: scroll;
+		scroll-behavior: smooth;
+		min-width: 300px;
+		-ms-overflow-style: none;
+ 		scrollbar-width: none;
+		&::-webkit-scrollbar {
+			display: none;
 		}
+	}
+	.imageSlider{
+		display: flex;
+		overflow: hidden;
+		width:fit-content;
+	}
+	img{
+		object-fit: contain;
+		max-width:300px;
+		max-height:200px;
 	}
 }
 .mainSpecs{

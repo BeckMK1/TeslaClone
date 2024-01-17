@@ -1,17 +1,19 @@
 <template>
 	<div class="productContainer">
-		<TransitionGroup name="list">
-			<ElementsProductsShowCaseProductCom v-for="product in products" :key="product"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
+		<TransitionGroup name="list" v-if="products.length != 0 ">
+			<ElementsProductsShowCaseProductCom v-for="(product, index) in products" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
 			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
 			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
-			:sub-specs="product.subSpecs"></ElementsProductsShowCaseProductCom>
+			:sub-specs="product.subSpecs" :product-id="'product-' + index"></ElementsProductsShowCaseProductCom>
 		</TransitionGroup>
+		<div class="loader" v-if="products.length == 0 ">loading....</div>
 	</div>
 </template>
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
 const products = ref([])
+const checkProducts = computed(() => store.allProduts)
 const checFilter = computed(()=> store.productFilter)
 const filtedProducts = ref([])
 function getProductData(){
@@ -20,6 +22,11 @@ function getProductData(){
 	}
 }
 getProductData()
+watch(checkProducts, async(newValue, oldValue) =>{
+	if(newValue != oldValue && products.length != newValue.length) {
+		getProductData()
+	}
+})
 // function filterModel(){
 // filtedProducts.value = products.value.filter((product) =>  store.productFilter.every(v => product.filterValues.includes(v)))
 // }
@@ -42,7 +49,12 @@ getProductData()
   transition: all 0.5s ease;
   position: relative;
 }
-
+.loader{
+	position: absolute;
+	color: black;
+	font-size: 2rem;
+	left: 50%;
+}
 .list-enter-from,
 .list-leave-to {
   opacity: 0;

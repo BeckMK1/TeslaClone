@@ -19,7 +19,7 @@ async function getProducts(){
     const {data: product} = await useFetch('http://localhost:3002/api/getAll');
     store.setProducts(product._rawValue)
 	}
-getProducts()
+    getProducts()
 menuColor()
 </script>
 <style lang="scss" scoped>
