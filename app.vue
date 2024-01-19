@@ -3,7 +3,15 @@
         <NuxtPage/>
       </NuxtLayout>
   </template>
-  <script setup></script>
+  <script setup>
+  import { useStore } from '~/store/glStore'
+  const store = useStore()
+  async function getSlides(){
+      const {data: slides} = await useFetch('http://localhost:3002/api/getAllSlides');
+      store.setslides(slides._rawValue)
+    }
+      getSlides()
+</script>
   <style lang="scss">
     p{
         margin: 0;

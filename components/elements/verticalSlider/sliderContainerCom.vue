@@ -6,8 +6,8 @@
             <div class="sliderContent" v-show="slide.active == true">
                 <h2 class="title" :class="slide.colors">{{ slide.title }}</h2>
                 <div class="btnContainer">
-                    <NuxtLink class="btn" :to="slide.btn1Link">{{slide.btn1}}</NuxtLink>
-                    <NuxtLink class="btn" to="#">{{slide.btn2}}</NuxtLink>
+                    <NuxtLink class="btn" :to="slide.btn1Link">{{slide.btn1Title}}</NuxtLink>
+                    <NuxtLink class="btn" to="#">{{slide.btn2Title}}</NuxtLink>
                 </div>
             </div>
         </div>
@@ -16,52 +16,7 @@
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
-const Slides = ref([
-    {
-        title:'Car Y',
-        image:'',
-        video:'/images/slider/video/carVideo.mp4',
-        btn1:'Se produkter',
-        btn2:'design din egen',
-        btn1Link:'/products/product',
-        btn2Link:'',
-        colors:'WhiteText',
-        active:true
-    },
-    {
-        title:'Car X',
-        image:'/images/slider/images/sliderCar2.jpg',
-        video:'',
-        btn1:'Se produkter',
-        btn2:'design din egen',
-        btn1Link:'',
-        btn2Link:'',
-        colors:'',
-        active:false
-    },
-    {
-        title:'Car 2',
-        image:'/images/slider/images/sliderCarCharger.jpg',
-        video:'',
-        btn1:'Se produkter',
-        btn2:'design din egen',
-        btn1Link:'',
-        btn2Link:'',
-        colors:'WhiteText',
-        active:false
-    },
-    {
-        title:'Car 3',
-        image:'/images/slider/images/sliderSolar.jpg',
-        video:'',
-        btn1:'Se produkter',
-        btn2:'design din egen',
-        btn1Link:'',
-        btn2Link:'',
-        colors:'',
-        active:false
-    },
-])
+const Slides = ref([])
 function setColor(){
     for(let slide of Slides.value){
         if(slide.active == true){
@@ -70,6 +25,13 @@ function setColor(){
         }
     }
 }
+function setSlides(){
+    for(let slide of store.allSlides){
+        Slides.value.push(slide.slides)
+
+    }
+}
+setSlides()
 function setSlideObserver(){
 	const slidesContent = document.querySelectorAll( ".slide");
 	let options = {
