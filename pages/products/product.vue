@@ -15,8 +15,14 @@ const store = useStore()
 function menuColor(){
     store.setMenuColor('')
 }
-async function getProducts(){
-    const {data: product} = await useFetch('http://localhost:3002/api/getAll');
+// async function getProducts(){
+//     const {data: product, } = await useFetch('http://localhost:3002/api/getOne', {
+//         query:{parm1: store.filtedProducts}
+//     });
+//     store.setProducts(product._rawValue)
+// 	}
+    async function getProducts(){
+    const {data: product, } = await useFetch('http://localhost:3002/api/getAll');
     store.setProducts(product._rawValue)
 	}
     getProducts()
