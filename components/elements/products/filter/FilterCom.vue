@@ -1,10 +1,10 @@
 <template>
 	<div class="filter">
-		<ElementsProductsFilterInputsTextInputCom label="Postnummer" subLabel="Hvor"></ElementsProductsFilterInputsTextInputCom>
-		<ElementsProductsFilterInputsSelectCom @sendData="getSelect" :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom>
+		<!-- <ElementsProductsFilterInputsTextInputCom label="Postnummer" subLabel="Hvor"></ElementsProductsFilterInputsTextInputCom>
+		<ElementsProductsFilterInputsSelectCom @sendData="getSelect" :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom> -->
 		<div class="filterTitle">
 			<p>Modeller</p>
-			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" :labels="['Model S', 'Model Y']" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
+			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" :labels="['Model S', 'Model Y', 'Model X']" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
 		</div>
 		<div class="filterTitle">
 			<p>Udstyr</p>

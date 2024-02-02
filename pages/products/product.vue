@@ -12,21 +12,26 @@
 <script setup>
 import { useStore } from '~/store/glStore'
 const store = useStore()
+const checkFilter = computed(()=>store.productFilter)
 function menuColor(){
     store.setMenuColor('')
 }
-// async function getProducts(){
-//     const {data: product, } = await useFetch('http://localhost:3002/api/getOne', {
-//         query:{parm1: store.filtedProducts}
-//     });
-//     store.setProducts(product._rawValue)
-// 	}
-    async function getProducts(){
-    const {data: product, } = await useFetch('http://localhost:3002/api/getAll');
+async function getProducts(){
+    const {data: product, } = await useFetch(`http://localhost:3002/api/getOne?filters=${store.productFilter}`);
     store.setProducts(product._rawValue)
-	}
-    getProducts()
+
+    console.log(product._rawValue)
+}
+    // async function getProducts(){
+    // const {data: product, } = await useFetch('http://localhost:3002/api/getAll');
+    // store.setProducts(product._rawValue)
+	// }
 menuColor()
+watch(checkFilter, async(newData, oldData)=>{
+    if(newData != oldData){
+        getProducts()
+    }
+})
 </script>
 <style lang="scss" scoped>
 @import"@/assets/scss/colors";

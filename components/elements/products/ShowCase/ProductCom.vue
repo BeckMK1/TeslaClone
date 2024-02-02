@@ -117,7 +117,6 @@ function sliderLeft(){
 	for(let slide of slider){
 		if(slide.classList.contains(props.productId)){
 			slide.scrollLeft -= slideImage.scrollWidth
-			
 		}
 	}
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="productContainer">
-		<TransitionGroup name="list" v-if="products.length != 0 ">
+		<TransitionGroup name="list" v-if="products.length != 0">
 			<ElementsProductsShowCaseProductCom v-for="(product, index) in products" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
 			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
 			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
@@ -17,26 +17,14 @@ const checkProducts = computed(() => store.allProduts)
 const checFilter = computed(()=> store.productFilter)
 const filtedProducts = ref([])
 function getProductData(){
-	for(let product of store.allProduts){
-		products.value.push(product.porduct)
-	}
+
 }
 getProductData()
 watch(checkProducts, async(newValue, oldValue) =>{
 	if(newValue != oldValue && products.length != newValue.length) {
-		getProductData()
+			products.value = store.allProduts.map(product => product.porduct)
 	}
 })
-// function filterModel(){
-// filtedProducts.value = products.value.filter((product) =>  store.productFilter.every(v => product.filterValues.includes(v)))
-// }
-// filterModel()
-// watch(checFilter, async(newData, oldData)=>{
-// 	if(newData != oldData ){
-// 		filterModel()
-// 	}
-// })
-
 </script>
 <style lang="scss" scoped>
 .productContainer{
