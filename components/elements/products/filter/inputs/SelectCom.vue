@@ -16,7 +16,7 @@ const props = defineProps({
     }
 })
 const emits = defineEmits(["sendData"])
-const selectValue = ref("50 KM")
+const selectValue = ref("50")
 emits("sendData", selectValue.value)
 watch(selectValue, async(newData, oldData)=>{
 	if(newData != oldData){

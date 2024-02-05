@@ -131,15 +131,20 @@ function sliderLeft(){
 }
 .productTitle{
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
 	h3{
 		margin: 0;
 		font-size: 1.5rem;
+		text-align: center;
+	}
+	p{
+		text-align: center;
 	}
 	.price{
 		height: fit-content;
 		width: fit-content;
-		margin-left: auto;
+		margin-top: 1rem;
 		.mainPrice{
 			font-weight: bold;
 			font-size: 1.5rem;
@@ -147,7 +152,7 @@ function sliderLeft(){
 		.subPrice{
 			text-decoration: line-through;
 			font-size: 13px;
-			width: fit-content;
+			text-align: center;
 		}
 		.priceInfo{
 			justify-self: end;
@@ -165,7 +170,7 @@ function sliderLeft(){
 	display: flex;
 	align-items: center;
 	padding: 1rem 0;
-	width: 300px;
+	width: 100%;
 	.sliderArrow{
 		transition: 250ms;
 			opacity: 0%;
@@ -184,7 +189,7 @@ function sliderLeft(){
 	.sliderWrapper{
 		overflow-x: scroll;
 		scroll-behavior: smooth;
-		min-width: 300px;
+		width: 100%;
 		-ms-overflow-style: none;
  		scrollbar-width: none;
 		&::-webkit-scrollbar {
@@ -198,27 +203,30 @@ function sliderLeft(){
 	}
 	img{
 		object-fit: contain;
-		max-width:300px;
-		max-height:200px;
+		width: 100%;
+		height: auto;
 	}
 }
 .mainSpecs{
 	display: flex;
 	justify-content: space-between;
+	flex-direction: column;
 	position: relative;
 	.specsContainer{
-	width: 33%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
+	padding-bottom: 0.5rem;
 		&:first-child{
-		border-right: 1px solid gray;
+		border-bottom: 1px solid gray;
 		align-items: center;
 		}
 		&:nth-child(2){
+			border-bottom: 1px solid gray;
 			align-items: center;
 		}
 		&:nth-child(3){
-			border-left: 1px solid gray;
+
 			align-items: center;
 		}
 	}
@@ -262,6 +270,46 @@ function sliderLeft(){
 	flex-wrap: wrap;
 	max-height: 200px;
 	padding: 1rem;
+}
+@media(min-width:450px){
+	.productTitle{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+	h3{
+		text-align: start;
+	}
+	p{
+		text-align: start;
+	}
+	.price{
+		margin-left: auto;
+		margin-top: 0;
+	}
+	.subPrice{
+		width: fit-content;
+	}
+	}
+	.mainSpecs{
+		flex-direction: row;
+		.specsContainer{
+			width: 33%;
+
+			&:first-child{
+			border-right: 1px solid gray;
+			border-bottom: none;
+			}
+			&:nth-child(2){
+				align-items: center;
+				border-bottom: none;
+			}
+			&:nth-child(3){
+				border-left: 1px solid gray;
+				align-items: center;
+			}
+		}
+	}
 }
 @media(min-width:1020px){
 	.productTitle{

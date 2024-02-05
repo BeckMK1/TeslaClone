@@ -421,7 +421,7 @@ watch(currentNav, async(newValue, oldValue)=>{
     }
     .showNavBtn{
         position: fixed;
-        z-index: 2;
+        z-index: 3;
         cursor: pointer;
     }
     .navBar{

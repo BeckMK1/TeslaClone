@@ -1,8 +1,8 @@
 <template>
 	<div>
         <div class="slide" :id="'slide-' + index" v-for="(slide, index) in Slides">
-            <ElementsVerticalSliderImageCom  v-if="slide.image != ''" :image="slide.image"></ElementsVerticalSliderImageCom>
-            <ElementsVerticalSliderVideoCom v-if="slide.video != ''" :video="slide.video" :active="slide.active"></ElementsVerticalSliderVideoCom>
+            <ElementsVerticalSliderImageCom  v-if="slide.mediaType == 'image'" :image="slide.media"></ElementsVerticalSliderImageCom>
+            <ElementsVerticalSliderVideoCom v-if="slide.mediaType == 'video'" :video="slide.media" :active="slide.active"></ElementsVerticalSliderVideoCom>
             <div class="sliderContent" v-show="slide.active == true">
                 <h2 class="title" :class="slide.colors">{{ slide.title }}</h2>
                 <div class="btnContainer">
