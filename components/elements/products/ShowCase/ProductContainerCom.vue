@@ -11,15 +11,64 @@
 </template>
 <script setup>
 import { useStore } from '~/store/glStore'
+import mapboxKey from '~/keys/mapbox'
 const store = useStore()
 const products = ref([])
 const checkProducts = computed(() => store.allProduts)
 const checFilter = computed(()=> store.productFilter)
 const filtedProducts = ref([])
-function getProductData(){
+async function  searchArea(){
+	let testInput = 6800
+	if(testInput >= 1000 && testInput <= 9990){
+		let testCord = [55.6333308, 8.4833314 ]
+		let cordsX = ""
+		let cordsY = ""
+		const {data: loaction} = await useFetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${testInput}.json?country=DK&access_token=${mapboxKey}`);
+		let gotloaction = loaction._rawValue
+		console.log(gotloaction)
+		let loactiondata = Object.entries(...gotloaction.features)
+		for(let coord of loactiondata){
+			if(coord.includes("center")){
+				cordsX = coord[1][0]
+				cordsY = coord[1][1]
+			}
+		}
+		let center = {lat:cordsY, lng:cordsX}
+		console.log("center: " + center.lat)
+		function degreesToRadians(degrees){
+			return degrees * Math.PI / 180;
+		}
+		checkIfInside(testCord)
+		function checkIfInside(spotCoords){
+			let newRadius = earthDistanceInKm(spotCoords[0], spotCoords[1], center.lat, center.lng);
+			if(newRadius < store.searchArea){
+				console.log("inside")
+			} else if(newRadius > store.searchArea){
+				console.log('outside')
+			}
+			else {
+			console.log('on the circle')
+		}
+		}
+		function earthDistanceInKm(lat1, lon1, lat2, lon2){
+			let earthRadiusKm = 6371;
+
+			let dLat = degreesToRadians(lat2-lat1);
+			let dLon = degreesToRadians(lon2-lon1);
+
+			lat1 = degreesToRadians(lat1)
+			lat2 =  degreesToRadians(lat2)
+
+			let a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+			let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+			return earthRadiusKm * c
+
+		}
+	}
 
 }
-getProductData()
+searchArea()
 watch(checkProducts, async(newValue, oldValue) =>{
 	if(newValue != oldValue && products.length != newValue.length) {
 			products.value = store.allProduts.map(product => product.porduct)
@@ -30,6 +79,7 @@ watch(checkProducts, async(newValue, oldValue) =>{
 .productContainer{
 	display: grid;
     grid-template-columns: 1fr;
+	grid-template-rows: fit-content(100%);
 	gap: 1.5rem;
 }
 .list-enter-active,

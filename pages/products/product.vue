@@ -19,8 +19,6 @@ function menuColor(){
 async function getProducts(){
     const {data: product, } = await useFetch(`http://localhost:3002/api/getOne?filters=${store.productFilter}`);
     store.setProducts(product._rawValue)
-
-    console.log(product._rawValue)
 }
     // async function getProducts(){
     // const {data: product, } = await useFetch('http://localhost:3002/api/getAll');

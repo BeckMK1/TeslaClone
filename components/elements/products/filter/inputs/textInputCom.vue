@@ -6,6 +6,7 @@
 	</div>
 </template>
 <script setup>
+const emits = defineEmits(["sendTextInput"])
 const props = defineProps({
 	label:{
 		default:'',
@@ -17,6 +18,11 @@ const props = defineProps({
 	}
 })
 const inputValue = ref("")
+watch(inputValue, async (newValue, oldValue)=>{
+	if(newValue != oldValue){
+		emits("sendTextInput", inputValue.value)
+	}
+})
 </script>
 <style lang="scss" scoped>
 		input{

@@ -9,7 +9,9 @@ export const useStore = defineStore('glStore', {
     indenFor:"",
     allProduts:[],
     productFilter:[],
-    allSlides:[]
+    allSlides:[],
+    filterZipCode:"",
+    searchArea:"50"
   }),
   actions:{
     flipNavDrop(data) {
@@ -32,6 +34,12 @@ export const useStore = defineStore('glStore', {
       },
       setslides(data){
         this.allSlides = data
+      },
+      setfilterZip(data){
+        this.filterZipCode = data
+      },
+      setSearchArea(data){
+        this.searchArea = data
       }
   }
 })

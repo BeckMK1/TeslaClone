@@ -1,7 +1,8 @@
 <template>
 	<div class="filter">
-		<!-- <ElementsProductsFilterInputsTextInputCom label="Postnummer" subLabel="Hvor"></ElementsProductsFilterInputsTextInputCom>
-		<ElementsProductsFilterInputsSelectCom @sendData="getSelect" :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom> -->
+		<ElementsProductsFilterInputsTextInputCom @sendTextInput="getTextInput" label="Postnummer" subLabel="Hvor"></ElementsProductsFilterInputsTextInputCom>
+		<ElementsProductsFilterInputsSelectCom @sendData="getSelect" :options="selectOptions" label="Søg inden for"></ElementsProductsFilterInputsSelectCom>
+		<div class="saveLoaction" @click="isPostCode = true">Søg</div>
 		<div class="filterTitle">
 			<p>Modeller</p>
 			<ElementsProductsFilterInputsRadioInputCom @sendInput="getRadio" :labels="['Model S', 'Model Y', 'Model X']" radioType="model"></ElementsProductsFilterInputsRadioInputCom>
@@ -13,21 +14,21 @@
 	</div>
 </template>
 <script setup>
-	import { useStore } from '~/store/glStore'
+import { useStore } from '~/store/glStore'
 	const props = defineProps({
 	})
 	const selectOptions = ref([
-		"50 KM",
-		"100 KM",
-		"150 KM",
-		"200 KM",
-		"alle"
+		"50",
+		"100",
+		"150",
+		"200",
 	])
 	const store = useStore()
 	const selectData = ref("")
+	const textData = ref("")
 	const radioData = ref("")
 	const checkBoxData = ref([])
-	
+	const isPostCode = ref(false)
 	function makeFilter(){
 		let tempArray = []
 		if(checkBoxData.value != []){
@@ -35,7 +36,6 @@
 			tempArray.push(checkBox.toString())
 		}
 		tempArray.push(radioData.value)
-		tempArray.push(selectData.value)
 		}
 		store.setFilter(tempArray)
 	}
@@ -45,11 +45,21 @@
 	function getCheckBox(data){
 		checkBoxData.value = data
 	}
+	function getTextInput(data){
+		textData.value = data
+	}
 	function getSelect(data){
 		selectData.value = data
 	}
-	watch([radioData, checkBoxData, selectData ], ([newRadio, newCheckbox, newIndenFor], [oldRadio, oldCheckbox, oldIndenFor])=>{
-		if(newRadio != oldRadio || newCheckbox != oldCheckbox || newIndenFor != oldIndenFor){
+	watch(isPostCode, async (newData) =>{
+		if(newData == true){
+			store.setfilterZip(textData.value)
+			store.setSearchArea(selectData.value)
+		}
+		isPostCode.value = false
+	})
+	watch([radioData, checkBoxData], ([newRadio, newCheckbox], [oldRadio, oldCheckbox])=>{
+		if(newRadio != oldRadio || newCheckbox != oldCheckbox){
 			makeFilter()
 		}
 	})
@@ -66,5 +76,14 @@
 				margin-bottom: 0.5rem;
 			}
 		}
+	}
+	.saveLoaction{
+		padding: 0.75rem;
+		background-color: hsl(0, 0%, 90%);
+		font-size: 1.2rem;
+		font-weight: bold;
+		border-radius: 0.5rem;
+		margin-bottom: 1rem;
+		cursor: pointer;
 	}
 </style>

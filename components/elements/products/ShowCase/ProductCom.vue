@@ -127,6 +127,7 @@ function sliderLeft(){
  padding: 1.5rem;
  background-color: white;
  border-radius: 0.5rem;
+ max-height: fit-content;
 }
 .productTitle{
 	display: flex;
