@@ -276,7 +276,7 @@ function sliderLeft(){
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	align-items: start;
+	align-items: flex-start;
 	h3{
 		text-align: start;
 	}

@@ -39,7 +39,7 @@ async function  searchArea(cardPostCode){
 			}
 		}
 		let center = {lat:cordsY, lng:cordsX}
-		// convert zipcode of car to coords
+		// convert zipcode of cars to coords
 		let carCordsX = ""
 		let carCordsY = ""
 		const {data: carLoaction} = await useFetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${cardPostCode}.json?country=DK&access_token=${mapboxKey}`);
