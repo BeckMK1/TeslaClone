@@ -14,11 +14,9 @@
 		</div>
 		<div class="imageSliderContainer">
 			<font-awesome-icon @click="sliderLeft" class="sliderArrow" icon="fa-solid fa-arrow-left" />
-			<div class="sliderWrapper" :class="productId">
-				<div class="imageSlider">
+				<div class="imageSlider" :class="productId">
 						<img v-for="image in images" :src="image" alt="">
 				</div>
-			</div>
 			<font-awesome-icon @click="sliderRight" class="sliderArrow" icon="fa-solid fa-arrow-right" />
 		</div>
 		<div class="mainSpecs">
@@ -121,6 +119,19 @@ function sliderLeft(){
 	}
 
 }
+function imageSlider(){
+	const sliderContainers = document.querySelectorAll(".imageSlider");
+	for(let sliderContainer of sliderContainers){
+	const slideImage = sliderContainer.querySelector("img");
+	sliderContainer.style.width = slideImage.offsetWidth + "px";
+	}
+}
+onMounted(()=>{
+	imageSlider()
+	window.addEventListener("resize", ()=>{
+	imageSlider()
+	})
+})
 </script>
 <style lang="scss" scoped>
 .product{
@@ -169,6 +180,7 @@ function sliderLeft(){
 .imageSliderContainer{
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	padding: 1rem 0;
 	width: 100%;
 	.sliderArrow{
@@ -186,7 +198,7 @@ function sliderLeft(){
 			opacity: 100%;
 	}
 	}
-	.sliderWrapper{
+	.imageSlider{
 		overflow-x: scroll;
 		scroll-behavior: smooth;
 		width: 100%;
@@ -195,16 +207,13 @@ function sliderLeft(){
 		&::-webkit-scrollbar {
 			display: none;
 		}
-	}
-	.imageSlider{
 		display: flex;
-		overflow: hidden;
-		width:fit-content;
 	}
 	img{
 		object-fit: contain;
 		width: 100%;
 		height: auto;
+		width: 200px;
 	}
 }
 .mainSpecs{
@@ -265,11 +274,12 @@ function sliderLeft(){
 	}
 }
 .subSpecs{
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	max-height: 200px;
+	display:grid;
+	grid-template-columns: 1fr 1fr;
 	padding: 1rem;
+	.spec{
+		justify-self: center;
+	}
 }
 @media(min-width:450px){
 	.productTitle{
@@ -292,10 +302,11 @@ function sliderLeft(){
 	}
 	}
 	.mainSpecs{
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
 		.specsContainer{
 			width: 33%;
-
+			width: 100%;
 			&:first-child{
 			border-right: 1px solid gray;
 			border-bottom: none;
@@ -310,6 +321,23 @@ function sliderLeft(){
 			}
 		}
 	}
+	.subSpecs{
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	padding: 1rem;
+	.spec{
+		justify-self: center;
+	}
+}
+.imageSliderContainer{
+	.imageSlider{
+		img{
+			object-fit: contain;
+			width: 100%;
+			height: auto;
+			min-width: 300px;
+		}
+	}
+}
 }
 @media(min-width:1020px){
 	.productTitle{

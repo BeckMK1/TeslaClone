@@ -86,13 +86,16 @@ onMounted(()=>{
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
     gap: 1rem;
     width: 100%;
     .btn{
     background-color: hsla(0, 0%, 100%, 60%);
     border-radius: 0.5rem;
-    padding: 0.75rem;
     color: black;
+    padding: 0.75rem;
+    width: 90%;
+    margin-right: auto;
     backdrop-filter: blur(16px);
     text-decoration: none;
     &:nth-child(2){
@@ -113,7 +116,6 @@ onMounted(()=>{
         justify-content: center;
         flex-direction: row;
         .btn{
-            padding: 0.75rem 7rem;
         }
     }
 }

@@ -37,8 +37,14 @@
                 </div>
             </div>
         </header>
-        <div  @mouseenter="resetCurrent">
-            <div v-if="isNav == false" class="showNavBtn mobileNavBtn" @click="isNav = true, store.flipNavDrop('') ">Menu</div>
+        <div @mouseenter="resetCurrent">
+            <div class="mobileNav">
+            <div class="mobileLogo">
+                <div><NuxtLink class="logo" :class="currentNav == '' ? store.menuColor : ''" to="/">Car</NuxtLink></div>
+            </div>
+                <div v-if="isNav == false" class="showNavBtn mobileNavBtn" @click="isNav = true, store.flipNavDrop('') ">Menu</div>
+            </div>
+            <div v-if="checkModal == true" class="modalBg"></div>
                 <slot></slot>
         </div>
     </main>
@@ -46,6 +52,7 @@
 <script setup>
 	import { useStore } from '~/store/glStore'
     const currentNav = computed(()=> store.isnavDrop)
+    const checkModal = computed(()=> store.checkModal)
     const currentProductCount = ref(0)
     const isNav = ref(true)
     const store = useStore() 
@@ -419,10 +426,15 @@ watch(currentNav, async(newValue, oldValue)=>{
             }
         }
     }
+    .mobileNav{
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem 1rem 0 1rem;
+    }
     .showNavBtn{
-        position: fixed;
         z-index: 3;
         cursor: pointer;
+        width:fit-content;
     }
     .navBar{
         display: flex;
@@ -492,8 +504,19 @@ watch(currentNav, async(newValue, oldValue)=>{
             font-weight: bold;
         }
         .closeRight{
+            cursor: pointer;
             margin-left: auto;
         }
+    }
+    .modalBg{
+    background-color: hsla(0,0%,10%,50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+    z-index:100;
     }
     @media (min-width:450px){
         header{
@@ -550,10 +573,13 @@ watch(currentNav, async(newValue, oldValue)=>{
 
     }
     @media (min-width:1200px){
+        .mobileNav{
+            display: none;
+        }
         header{
             background-color: transparent;
             height: fit-content;
-            min-height: 300px;
+
             .headerElement{
                 &:nth-child(1){
                     display: block;

@@ -4,19 +4,19 @@
             <h2>Produkt side</h2>
         </div>
         <div class="pageContent">
-            <div class="mobileFilters">
-                <div class="spoiler" @click="filterOpen = !filterOpen">
-                    <h3>Filters</h3>
-                    <font-awesome-icon class="filterIcon" :class="filterOpen == true ? 'iconOpen': 'iconClosed'" icon="fa-solid fa-chevron-right" />
-                </div>
-                <div class="content" :class="filterOpen == true ? 'filterOpen': 'filterClosed'">
-                    <ElementsProductsFilterContainerCom></ElementsProductsFilterContainerCom>
-                </div>
+            <div class="mobileBtnContainer">
+                <button @click="filterModelOpen = true">Filter</button>
             </div>
             <div class="desktopFilter">
                 <ElementsProductsFilterContainerCom></ElementsProductsFilterContainerCom>
             </div>
             <ElementsProductsShowCaseProductContainerCom></ElementsProductsShowCaseProductContainerCom>
+            <Teleport to="body">
+                <div class="mobileFilter" v-if="filterModelOpen">
+                <font-awesome-icon class="closeBtn" @click="filterModelOpen = false" icon="fa-solid fa-x" />
+                <ElementsProductsFilterContainerCom></ElementsProductsFilterContainerCom>
+                </div>
+            </Teleport>
         </div>
     </div>
 </template>
@@ -25,6 +25,7 @@ import { useStore } from '~/store/glStore'
 const store = useStore()
 const checkFilter = computed(()=>store.productFilter)
 const filterOpen = ref(false)
+const filterModelOpen = ref(false)
 function menuColor(){
     store.setMenuColor('')
 }
@@ -42,6 +43,22 @@ watch(filterOpen, async(newData) =>{
         filterContant.style.height = 0
     }
 })
+function imageSlider(){
+	const sliderContainers = document.querySelectorAll(".imageSlider");
+	for(let sliderContainer of sliderContainers){
+		const slideImage = sliderContainer.querySelector("img");
+	sliderContainer.style.width = slideImage.offsetWidth + "px";
+	}
+}
+onMounted(()=>{
+	imageSlider()
+})
+watch(filterModelOpen, async(newData, oldData) =>{
+    if(newData != oldData){
+        store.flipModal(filterModelOpen.value)
+    }
+})
+
 watch(checkFilter, async(newData, oldData)=>{
     if(newData != oldData){
         getProducts()
@@ -66,69 +83,72 @@ watch(checkFilter, async(newData, oldData)=>{
     .pageContent{
         padding-bottom: 1.5rem;
         display: grid;
-        grid-template-columns: repeat(24, 1fr);
-
+        grid-template-columns: 1fr;
     }
     .desktopFilter{
             display: none;
     }
-    .mobileFilters{
-            display: block;
-            grid-column: 1/25;
-            .spoiler{
-                padding: 1rem 3rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+    .mobileBtnContainer{
+        display: block;
+        width: 100%;
+        padding: 1rem 1rem;
+        background-color: white;
+        margin-bottom: 1rem;
+        button{
+            width: 50%;
+            border: none;
+            background-color: hsl(0, 0%, 95%);
+            padding: 0.75rem 0;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 250ms;
+            &:hover{
                 background-color: hsl(0, 0%, 90%);
-                .filterIcon{
-                    z-index: 0;
-                    position: relative;
-                }
-                .iconOpen{
-                    transform: rotate(90deg);
-                    transition: 250ms;
-                }
-                .iconClosed{
-                    transform: rotate(0deg);
-                    transition: 250ms;
-                }
-            }
-            .content{
-                overflow: hidden;
-                transition: 500ms;
-                padding-top: 1rem;
+                transition: 250ms;
             }
         }
-        .filterContainer{
-        grid-column: 1/24;
     }
-    .productContainer{
-        grid-column: 1/25;
+    .mobileFilter{
+        position: fixed;
+        top: 20%;
+        background-color: white;
+        width: 90%;
+        left: 5%;
+        z-index: 101;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        border-radius: 1rem;
+        .closeBtn{
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            cursor: pointer;
+        }
     }
-    @media(min-width:450px){
-    .filterContainer{
-        grid-column: 1/24;
+    @media(min-width:760px){
+    .mobileBtnContainer{
+        display: none;
     }
-    .productContainer{
-        grid-column: 2/24;
+    .pageContent{
+        grid-template-columns: minmax(300px, 33%) 1fr;
+        margin-top: 100px;
+    }
+    .desktopFilter{
+        display: block;
     }
     }
-    @media(min-width:1460px){
-        
+    @media(min-width:1700px){
         .pageContent{
+            grid-template-columns: minmax(300px, 25%) 1fr;
             padding-top: 100px;
             margin-top: 3rem;
         }
         .desktopFilter{
             display: block;
-            grid-column: 1/6;
         }
         .mobileFilters{
             display: none;
-        }
-        .productContainer{
-            grid-column: 6/24;
         }
     }
 </style>

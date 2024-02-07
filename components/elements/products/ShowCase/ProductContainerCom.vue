@@ -4,7 +4,7 @@
 			<ElementsProductsShowCaseProductCom v-for="(product, index) in products" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
 			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
 			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
-			:sub-specs="product.subSpecs" :product-id="'product-' + index"></ElementsProductsShowCaseProductCom>
+			:sub-specs="product.subspecs" :product-id="'product-' + index"></ElementsProductsShowCaseProductCom>
 		</TransitionGroup>
 		<TransitionGroup name="list" v-if="filtedProducts.length != 0 && checkFilter != ''">
 			<ElementsProductsShowCaseProductCom v-for="(product, index) in filtedProducts" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
@@ -121,6 +121,9 @@ watch(checkProducts, async(newValue, oldValue) =>{
     grid-template-columns: 1fr;
 	grid-template-rows: fit-content(100%);
 	gap: 1.5rem;
+	padding-left:1rem;
+	padding-right:1rem;
+
 }
 .list-enter-active,
 .list-leave-active {
@@ -139,9 +142,9 @@ watch(checkProducts, async(newValue, oldValue) =>{
   position: absolute;
   max-width:100%;
 }
-@media(min-width:1020px){
+@media(min-width:450px){
 	.productContainer{
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 	}
 	.list-enter-active,
 .list-leave-active {
@@ -156,7 +159,13 @@ watch(checkProducts, async(newValue, oldValue) =>{
   max-width:40%;
 }
 }
-@media(min-width:1800px){
+@media(min-width:1220px){
+	.productContainer{
+		padding-right: 3rem;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media(min-width:1700px){
 	.productContainer{
 		grid-template-columns: 1fr 1fr 1fr;
 	}

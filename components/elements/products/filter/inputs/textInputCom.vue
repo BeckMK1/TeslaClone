@@ -36,6 +36,7 @@ watch(inputValue, async (newValue, oldValue)=>{
 			font-size: 1.10rem;
 			font-weight: 600;
 			margin-bottom: 1rem;
+			background-color: hsl(0, 0%, 90%);
 		}
 		label{
 			font-size: 1.25rem;

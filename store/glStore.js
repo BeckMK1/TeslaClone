@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useStore = defineStore('glStore', {
   // arrow function recommended for full type inference
   state: () => ({
+    checkModal: false,
     isnavDrop: "",
     menuColor:"",
     model:"",
@@ -14,6 +15,9 @@ export const useStore = defineStore('glStore', {
     searchArea:"50"
   }),
   actions:{
+    flipModal(data){
+      this.checkModal = data
+    },
     flipNavDrop(data) {
         this.isnavDrop = data
       },
