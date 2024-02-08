@@ -10,7 +10,9 @@
             <div class="desktopFilter">
                 <ElementsProductsFilterContainerCom></ElementsProductsFilterContainerCom>
             </div>
+            <div class="productsContainer">
             <ElementsProductsShowCaseProductContainerCom></ElementsProductsShowCaseProductContainerCom>
+            </div>
             <Teleport to="body">
                 <div class="mobileFilter" v-if="filterModelOpen">
                 <font-awesome-icon class="closeBtn" @click="filterModelOpen = false" icon="fa-solid fa-x" />
@@ -140,9 +142,12 @@ watch(checkFilter, async(newData, oldData)=>{
     }
     @media(min-width:1700px){
         .pageContent{
-            grid-template-columns: minmax(300px, 25%) 1fr;
-            padding-top: 100px;
+            grid-template-columns: minmax(300px, 20%) 1fr;
+            padding-top: 0;
             margin-top: 3rem;
+            .productsContainer{
+                margin-top: 55px;
+            }
         }
         .desktopFilter{
             display: block;

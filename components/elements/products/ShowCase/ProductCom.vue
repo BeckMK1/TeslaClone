@@ -164,6 +164,9 @@ onMounted(()=>{
 	p{
 		text-align: center;
 	}
+	.titleInfo{
+		font-size: 13px;
+	}
 	.price{
 		height: fit-content;
 		width: fit-content;
@@ -193,7 +196,7 @@ onMounted(()=>{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 1rem 0;
+	padding: 4rem 0;
 	width: 100%;
 	.sliderArrow{
 		transition: 250ms;
@@ -247,7 +250,6 @@ onMounted(()=>{
 			align-items: center;
 		}
 		&:nth-child(3){
-
 			align-items: center;
 		}
 	}
@@ -293,6 +295,7 @@ onMounted(()=>{
 	padding: 1rem;
 	.spec{
 		justify-self: center;
+		font-size: 12px;
 	}
 }
 @media(min-width:450px){
@@ -336,10 +339,12 @@ onMounted(()=>{
 		}
 	}
 	.subSpecs{
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
 	padding: 1rem;
+	grid-auto-rows: fit-content(100%);
 	.spec{
-		justify-self: center;
+		justify-self: start;
+		margin-bottom: 0.25rem;
 	}
 }
 .imageSliderContainer{
@@ -355,6 +360,12 @@ onMounted(()=>{
 }
 @media(min-width:1020px){
 	.productTitle{
+		.titleInfo{
+
+		}
+		.title{
+		width: 48%;
+		}
 		.price{
 			display: grid;
 			grid-template-rows: 100% 100%;

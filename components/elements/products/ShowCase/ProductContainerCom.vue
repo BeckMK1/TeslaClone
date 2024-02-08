@@ -1,7 +1,7 @@
 <template>
 	<div class="productContainer">
 		<TransitionGroup name="list" v-if="products.length != 0 && checkFilter == ''">
-			<ElementsProductsShowCaseProductCom v-for="(product, index) in checkProducts" :key="index"  :title="product.porduct.title" :sub-title="product.porduct.subTitle" :title-info="product.titleInfo" 
+			<ElementsProductsShowCaseProductCom v-for="(product, index) in checkProducts" :key="index"  :title="product.porduct.title" :sub-title="product.porduct.subTitle" :title-info="product.porduct.titleInfo" 
 			:main-price="product.porduct.price" :sub-price="product.porduct.normalPrice" :isDemo="product.porduct.isDemo" :images="product.porduct.images" :main-specs1="product.porduct.mainSpec1"
 			:main-specs2="product.porduct.mainSpec2" :main-specs3="product.porduct.mainSpec3"  
 			:sub-specs="product.porduct.subspecs" :product-id="'product-' + index" :details-id="product._id"></ElementsProductsShowCaseProductCom>

@@ -90,7 +90,7 @@ function sliderLeft(){
             gap: 3rem;
             grid-auto-rows: fit-content(100%);
             width: 100%;
-            overflow-y: scroll;
+            overflow-y: auto;
             .content-inner{
                 h1{
                     text-align: center;
