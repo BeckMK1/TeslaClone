@@ -72,7 +72,7 @@ yarn preview
 bun run preview
 ```
 ## Api keys
-Make a folde called "keys" in the root and a js file called "mapbox" and in the file:
+Make a folder called "keys" in the root. In the "keys" folder make a js file called "mapbox" and in the file:
 ```js
 const mapboxKey = "your_mapbox_apikey"
 export default mapboxKey
