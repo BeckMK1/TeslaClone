@@ -71,5 +71,10 @@ yarn preview
 # bun
 bun run preview
 ```
-
+## Api keys
+Make a folde called "keys" in the root and a js file called "mapbox" and in the file:
+```js
+const mapboxKey = "your_mapbox_apikey"
+export default mapboxKey
+```
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
