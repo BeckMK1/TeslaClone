@@ -11,6 +11,7 @@ export const useStore = defineStore('glStore', {
     allProduts:[],
     productFilter:[],
     allSlides:[],
+    product:[],
     filterZipCode:"",
     searchArea:"50"
   }),
@@ -35,6 +36,9 @@ export const useStore = defineStore('glStore', {
       },
       setProducts(data){
         this.allProduts = data
+      },
+      setProduct(data){
+        this.product = data
       },
       setslides(data){
         this.allSlides = data

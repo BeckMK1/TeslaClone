@@ -68,7 +68,7 @@ onMounted(()=>{
     z-index: 10;
     height: 90%;
     margin-top: auto;
-    width: 100vw;
+    width: calc(100% - 2rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,6 +76,7 @@ onMounted(()=>{
     margin-left: 1rem;
     margin-right: 1rem;
     top: 10%;
+    left: 0;
     h2{
         font-size: 2.5rem;
         transition: 250ms;
@@ -83,19 +84,19 @@ onMounted(()=>{
 }
 .btnContainer{
     margin-bottom: 3rem;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
     width: 100%;
     .btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     background-color: hsla(0, 0%, 100%, 60%);
     border-radius: 0.5rem;
     color: black;
-    padding: 0.75rem;
-    width: 90%;
-    margin-right: auto;
+    width: 100%;
+    height: 45px;
     backdrop-filter: blur(16px);
     text-decoration: none;
     &:nth-child(2){
@@ -113,8 +114,8 @@ onMounted(()=>{
 }
 @media (min-width:1200px){
     .btnContainer{
+        grid-template-columns: 20% 20%;
         justify-content: center;
-        flex-direction: row;
         .btn{
         }
     }

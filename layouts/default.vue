@@ -10,12 +10,12 @@
                 <div class="headerElement">
                     <div><NuxtLink class="logo" :class="currentNav == '' ? store.menuColor : ''" to="/">Car</NuxtLink></div>
                 </div>
-                <div class="headerElement">
+                <div v-if="$route.fullPath != `/products/details/${$route.params.id}`" class="headerElement">
                     <div class="navBar">
                     <ElementsNavbarLinkCom :isMain="true" class="navLink" v-for="NavLink in NavLinks" :hasMobileSub="NavLink.hasMobileSub" :link="NavLink.link" :title="NavLink.title"></ElementsNavbarLinkCom>
                     </div>
                 </div>
-                <div class="headerElement">
+                <div v-if="$route.fullPath != `/products/details/${$route.params.id}`" class="headerElement">
                     <div class="icons">
                         <ElementsNavbarLinkCom class="iconLink iconTextLink" v-show="NavIcon.title != null" v-for="NavIcon in NavIcons" :isMain="true" :link="NavIcon.link" :isIcon="false" :title="NavIcon.title"></ElementsNavbarLinkCom>
                         <ElementsNavbarLinkCom class="iconLink" :class="NavIcon.title == 'support' ? 'iconNoText' : ''"  v-for="NavIcon in NavIcons" :isMain="true" :link="NavIcon.link" :isIcon="true" :icon="NavIcon.icon"></ElementsNavbarLinkCom>

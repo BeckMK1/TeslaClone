@@ -38,7 +38,7 @@
 				</div>
 				<p class="specsInfo"></p>
 			</div>
-			<button class="detailsBtn"><p>Se details</p></button>
+			<NuxtLink :to="'details/' + detailsId" class="detailsBtn"><p>Se details</p></NuxtLink>
 		</div>
 		<div class="subSpecs">
 			<p v-for="subspec in subSpecs" class="spec">{{ subspec }}</p>
@@ -94,11 +94,15 @@ const props = defineProps({
 	productId:{
 		default:"",
 		type:String
+	},
+	detailsId:{
+		default:"",
+		type:String
 	}
 })
 function sliderRight(){
 	const slider = document.querySelectorAll("." + props.productId);
-	const slideImage = document.querySelector(".imageSlider");
+	const slideImage = document.querySelector(".imageSlider img");
 	for(let slide of slider){
 		if(slide.classList.contains(props.productId)){
 			slide.scrollLeft += slideImage.scrollWidth
@@ -111,7 +115,7 @@ function sliderRight(){
 }
 function sliderLeft(){
 	const slider = document.querySelectorAll("." + props.productId);
-	const slideImage = document.querySelector(".imageSlider");
+	const slideImage = document.querySelector(".imageSlider img");
 	for(let slide of slider){
 		if(slide.classList.contains(props.productId)){
 			slide.scrollLeft -= slideImage.scrollWidth
@@ -139,6 +143,14 @@ onMounted(()=>{
  background-color: white;
  border-radius: 0.5rem;
  max-height: fit-content;
+ &:hover{
+	
+	.mainSpecs .detailsBtn{
+			opacity: 100%;
+			pointer-events: auto;
+			transition: opacity 250ms;
+		}
+	}
 }
 .productTitle{
 	display: flex;
@@ -250,7 +262,12 @@ onMounted(()=>{
 		}
 	}
 	.detailsBtn{
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		position: absolute;
+		color: black;
+		text-decoration: none;
 		width: 100%;
 		height: 100%;
 		background-color: white;
@@ -264,12 +281,9 @@ onMounted(()=>{
 			font-size: 1.10rem;
 			font-weight: 600;
 		}
-	}
-	&:hover{
-		.detailsBtn{
-			opacity: 100%;
-			pointer-events: auto;
-			transition: opacity 250ms;
+		&:hover{
+			background-color: black;
+			color: white;
 		}
 	}
 }

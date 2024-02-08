@@ -66,6 +66,10 @@ import postCodes from '~/data/postCode';
 			store.setfilterZip(textData.value)
 			store.setSearchArea(selectData.value)
 		}
+		if(newData == true && textData.value == ""){
+			store.setfilterZip(textData.value)
+			store.setSearchArea(selectData.value)
+		}
 		isPostCode.value = false
 	})
 	watch([radioData, checkBoxData], ([newRadio, newCheckbox], [oldRadio, oldCheckbox])=>{

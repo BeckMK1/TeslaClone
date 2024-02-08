@@ -1,12 +1,12 @@
 <template>
 	<div class="productContainer">
-		<TransitionGroup name="list" v-if="products.length != 0 && filtedProducts == 0">
-			<ElementsProductsShowCaseProductCom v-for="(product, index) in products" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
-			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
-			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
-			:sub-specs="product.subspecs" :product-id="'product-' + index"></ElementsProductsShowCaseProductCom>
+		<TransitionGroup name="list" v-if="products.length != 0 && checkFilter == ''">
+			<ElementsProductsShowCaseProductCom v-for="(product, index) in checkProducts" :key="index"  :title="product.porduct.title" :sub-title="product.porduct.subTitle" :title-info="product.titleInfo" 
+			:main-price="product.porduct.price" :sub-price="product.porduct.normalPrice" :isDemo="product.porduct.isDemo" :images="product.porduct.images" :main-specs1="product.porduct.mainSpec1"
+			:main-specs2="product.porduct.mainSpec2" :main-specs3="product.porduct.mainSpec3"  
+			:sub-specs="product.porduct.subspecs" :product-id="'product-' + index" :details-id="product._id"></ElementsProductsShowCaseProductCom>
 		</TransitionGroup>
-		<TransitionGroup name="list" v-if="filtedProducts.length != 0 && checkFilter != ''">
+		<TransitionGroup name="list" v-if="checkFilter != ''">
 			<ElementsProductsShowCaseProductCom v-for="(product, index) in filtedProducts" :key="index"  :title="product.title" :sub-title="product.subTitle" :title-info="product.titleInfo" 
 			:main-price="product.price" :sub-price="product.normalPrice" :isDemo="product.isDemo" :images="product.images" :main-specs1="product.mainSpec1"
 			:main-specs2="product.mainSpec2" :main-specs3="product.mainSpec3"  
@@ -96,17 +96,19 @@ async function  searchArea(cardPostCode){
 function checkSearchArea(){
 	for(let filterProduct of products.value){
 		searchArea(filterProduct.zipCode).then((value)=>{
-			if(filterProduct.zipCode == value){
+		if(filterProduct.zipCode == value && store.filterZipCode != ""){
+			filtedProducts.value = []
 			filtedProducts.value.push(filterProduct)
-			console.log("addToFiltered")
-		} 
+		}
 		})
-		
 	}
 }
 watch(checkFilter, async(newData, oldData) => {
-	if(newData != oldData){
+	if(newData != oldData && newData != ""){
 		checkSearchArea()
+	}
+	if(newData != oldData && newData == ""){
+		filtedProducts.value = []
 	}
 })
 watch(checkProducts, async(newValue, oldValue) =>{
