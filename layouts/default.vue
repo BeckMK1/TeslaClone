@@ -400,6 +400,18 @@ watch(currentNav, async(newValue, oldValue)=>{
         left: 0;
         top: 0;
         z-index: 99;
+        animation: menuDown 1s forwards ease;
+        opacity: 0;
+        @keyframes menuDown {
+            from{
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to{
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
         .logo{
             transition: 250ms;
         }

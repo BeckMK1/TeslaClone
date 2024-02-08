@@ -78,8 +78,20 @@ onMounted(()=>{
     top: 10%;
     left: 0;
     h2{
+        animation: fadeIN 1s forwards ease;
         font-size: 2.5rem;
         transition: 250ms;
+        opacity: 0;
+    }
+}
+@keyframes fadeIN{
+    from{
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
     }
 }
 .btnContainer{
@@ -92,16 +104,40 @@ onMounted(()=>{
         display: flex;
         align-items: center;
         justify-content: center;
-    background-color: hsla(0, 0%, 100%, 60%);
-    border-radius: 0.5rem;
-    color: black;
-    width: 100%;
-    height: 45px;
-    backdrop-filter: blur(16px);
-    text-decoration: none;
+        background-color: hsla(0, 0%, 100%, 60%);
+        border-radius: 0.5rem;
+        color: black;
+        width: 100%;
+        height: 45px;
+        backdrop-filter: blur(16px);
+        text-decoration: none;
+    &:nth-child(1){
+        animation: btnLeft 1s forwards ease;
+    }
     &:nth-child(2){
         background-color: hsla(0, 0%, 20%, 60%);
         color: white;
+        animation: btnRight 1s forwards ease;
+    }
+    @keyframes btnLeft {
+        from{
+            transform: translateX(-50px);
+            opacity: 0;
+        }
+        to{
+            transform: translateX(0px);
+            opacity: 1;
+        }
+    }
+    @keyframes btnRight {
+        from{
+            transform: translateX(50px);
+            opacity: 0;
+        }
+        to{
+            transform: translateX(0px);
+            opacity: 1;
+        }
     }
     }
 }

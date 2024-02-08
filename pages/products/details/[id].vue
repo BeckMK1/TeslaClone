@@ -12,9 +12,9 @@
                 <h1>{{ product.title }}</h1>
                 <p class="subTitle">{{ product.subTitle }}</p>
                 <div class="mainSpec">
-                    <p>{{ product.mainSpec1 }}</p>
-                    <p>{{ product.mainSpec2 }}</p>
-                    <p>{{ product.mainSpec3 }}</p>
+                    <h2>{{ product.mainSpec1 }}</h2>
+                    <h2>{{ product.mainSpec2 }}</h2>
+                    <h2>{{ product.mainSpec3 }}</h2>
                 </div>
             </div>
             <div class="content-inner">

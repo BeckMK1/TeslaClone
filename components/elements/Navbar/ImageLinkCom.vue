@@ -39,6 +39,16 @@ const props = defineProps({
             object-fit: contain;
             width: 100%;
             transform: scaleX(-1);
+            animation: navImgFadeIn 1s forwards ease;
+            opacity: 0;
+        }
+    }
+    @keyframes navImgFadeIn {
+        from{
+            opacity: 0;
+        }
+        to{
+            opacity: 1;
         }
     }
     .imageNavText{

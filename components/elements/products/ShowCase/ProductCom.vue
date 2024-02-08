@@ -354,6 +354,16 @@ onMounted(()=>{
 			width: 100%;
 			height: auto;
 			min-width: 300px;
+			animation: imageFadeIn 1s forwards ease;
+			opacity: 0;
+		}
+		@keyframes imageFadeIn {
+			from{
+				opacity: 0;
+			}
+			to{
+				opacity: 1;
+			}
 		}
 	}
 }
